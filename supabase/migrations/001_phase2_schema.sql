@@ -128,27 +128,42 @@ ALTER TABLE forum_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE resources ENABLE ROW LEVEL SECURITY;
 
 -- Profiles: public read, own update
+DROP POLICY IF EXISTS "profiles_select" ON profiles;
+DROP POLICY IF EXISTS "profiles_insert" ON profiles;
+DROP POLICY IF EXISTS "profiles_update" ON profiles;
 CREATE POLICY "profiles_select" ON profiles FOR SELECT USING (true);
 CREATE POLICY "profiles_insert" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 CREATE POLICY "profiles_update" ON profiles FOR UPDATE USING (auth.uid() = id);
 
 -- Articles: published = public; author can manage own
+DROP POLICY IF EXISTS "articles_select" ON articles;
+DROP POLICY IF EXISTS "articles_insert" ON articles;
+DROP POLICY IF EXISTS "articles_update" ON articles;
 CREATE POLICY "articles_select" ON articles FOR SELECT USING (published = true OR auth.uid() = author_id);
 CREATE POLICY "articles_insert" ON articles FOR INSERT WITH CHECK (auth.uid() = author_id);
 CREATE POLICY "articles_update" ON articles FOR UPDATE USING (auth.uid() = author_id);
 
 -- Forum threads: public read, auth users create, author update
+DROP POLICY IF EXISTS "threads_select" ON forum_threads;
+DROP POLICY IF EXISTS "threads_insert" ON forum_threads;
+DROP POLICY IF EXISTS "threads_update" ON forum_threads;
 CREATE POLICY "threads_select" ON forum_threads FOR SELECT USING (true);
 CREATE POLICY "threads_insert" ON forum_threads FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 CREATE POLICY "threads_update" ON forum_threads FOR UPDATE USING (auth.uid() = author_id);
 
 -- Forum posts: public read, auth users create, author update/delete
+DROP POLICY IF EXISTS "posts_select" ON forum_posts;
+DROP POLICY IF EXISTS "posts_insert" ON forum_posts;
+DROP POLICY IF EXISTS "posts_update" ON forum_posts;
+DROP POLICY IF EXISTS "posts_delete" ON forum_posts;
 CREATE POLICY "posts_select" ON forum_posts FOR SELECT USING (true);
 CREATE POLICY "posts_insert" ON forum_posts FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 CREATE POLICY "posts_update" ON forum_posts FOR UPDATE USING (auth.uid() = author_id);
 CREATE POLICY "posts_delete" ON forum_posts FOR DELETE USING (auth.uid() = author_id);
 
 -- Resources: public read, auth users create
+DROP POLICY IF EXISTS "resources_select" ON resources;
+DROP POLICY IF EXISTS "resources_insert" ON resources;
 CREATE POLICY "resources_select" ON resources FOR SELECT USING (true);
 CREATE POLICY "resources_insert" ON resources FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 
