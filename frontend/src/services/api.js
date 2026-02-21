@@ -1,12 +1,19 @@
 import { supabase } from './supabaseClient';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const API_BASE = `${SUPABASE_URL}/functions/v1`;
 
 async function authHeaders() {
   const { data: { session } } = await supabase.auth.getSession();
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_ANON_KEY,
+  };
   if (session?.access_token) {
     headers['Authorization'] = `Bearer ${session.access_token}`;
+  } else {
+    headers['Authorization'] = `Bearer ${SUPABASE_ANON_KEY}`;
   }
   return headers;
 }
@@ -35,12 +42,12 @@ export const api = {
 // --- Convenience helpers ---
 
 export const btcApi = {
-  getPrice: () => api.get('/btc-data/price'),
-  getHistory: (days = 7) => api.get(`/btc-data/history?days=${days}`),
-  getTechnical: (days = 30) => api.get(`/btc-data/technical?days=${days}`),
+  getPrice: () => api.get('/btc-price'),
+  getHistory: (days = 7) => api.get(`/btc-history?days=${days}`),
+  getTechnical: (days = 30) => api.get(`/btc-technical?days=${days}`),
 };
 
 export const signalsApi = {
-  getLatest: () => api.get('/signals/latest'),
-  getHistory: (limit = 20) => api.get(`/signals/history?limit=${limit}`),
+  getLatest: () => api.get('/signals-latest'),
+  getHistory: (limit = 20) => api.get(`/signals-history?limit=${limit}`),
 };

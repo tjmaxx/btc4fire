@@ -10,8 +10,8 @@ const SAYLOR_QUOTES = [
 ];
 
 const STRATEGY_STATS = [
-  { label: 'BTC Holdings', value: '555,450+', sub: 'Bitcoin on balance sheet' },
-  { label: 'Avg Buy Price', value: '~$68k', sub: 'Cost basis per BTC' },
+  { label: 'BTC Holdings', value: '717,131', sub: 'Bitcoin on balance sheet' },
+  { label: 'Avg Buy Price', value: '~$76k', sub: 'Cost basis per BTC' },
   { label: 'Since', value: '2020', sub: 'Years of accumulation' },
   { label: 'Strategy', value: 'Never sell', sub: 'HODl as treasury reserve' },
 ];
@@ -50,7 +50,7 @@ const FIRE_PRINCIPLES = [
 const BTC_NEWS_LINKS = [
   { label: 'Bitcoin Magazine', url: 'https://bitcoinmagazine.com', desc: 'The definitive source for Bitcoin news and analysis.' },
   { label: 'Michael Saylor on X', url: 'https://x.com/saylor', desc: 'Strategy CEO\'s real-time Bitcoin commentary.' },
-  { label: 'Strategy Investor Page', url: 'https://www.strategy.com/bitcoin', desc: 'Track Strategy\'s official BTC holdings and purchases.' },
+  { label: 'Strategy Investor Page', url: 'https://www.strategy.com/btc', desc: 'Track Strategy\'s official BTC holdings and purchases.' },
   { label: 'Clark Moody Dashboard', url: 'https://bitcoin.clarkmoody.com', desc: 'On-chain BTC metrics and network health data.' },
   { label: 'FIRE & Bitcoin Forum', url: '/forum', desc: 'Discuss FIRE strategy with the BTC4Fire community.', internal: true },
   { label: 'r/Bitcoin', url: 'https://reddit.com/r/Bitcoin', desc: 'The largest Bitcoin community on Reddit.' },
@@ -137,7 +137,7 @@ const HomePage = () => {
               </div>
               <p className="text-white/70 text-sm leading-relaxed mb-4">
                 Strategy Inc, led by Michael Saylor, pioneered the corporate Bitcoin treasury strategy — converting cash reserves into Bitcoin rather than holding depreciating fiat.
-                Since August 2020, they have accumulated over 555,000 BTC, making them the largest corporate Bitcoin holder in the world.
+                Since August 2020, they have accumulated over 717,000 BTC, making them the largest corporate Bitcoin holder in the world.
                 Their thesis: <span className="text-orange-300 font-medium">Bitcoin is the only rational savings asset in a world of infinite money printing.</span>
               </p>
               <p className="text-white/60 text-sm leading-relaxed mb-5">
@@ -145,7 +145,7 @@ const HomePage = () => {
                 accumulate Bitcoin consistently — and let the fixed 21M supply work in your favour over a 10–20 year horizon.
               </p>
               <a
-                href="https://www.strategy.com/bitcoin"
+                href="https://www.strategy.com/btc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
@@ -273,6 +273,16 @@ const HomePage = () => {
 
       </div>
 
+      {/* Disclaimer */}
+      <div className="max-w-7xl mx-auto px-4 mb-10">
+        <div className="bg-slate-900/80 border border-slate-700 rounded-xl px-6 py-5">
+          <h3 className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2">Disclaimer</h3>
+          <p className="text-white/40 text-xs leading-relaxed">
+            BTC4Fire is an educational and community platform only. Nothing on this website constitutes financial, investment, tax, or legal advice. All content — including price data, trading signals, technical indicators, articles, and forum posts — is provided for informational and educational purposes only and should not be relied upon as a recommendation to buy, sell, or hold any asset. Cryptocurrency is highly volatile and you may lose some or all of your investment. Always do your own research (DYOR) and consult a qualified financial advisor before making any investment decisions. BTC4Fire, its creators, and contributors accept no responsibility or liability for any financial losses or damages arising from the use of this website or reliance on any information provided herein. Past performance is not indicative of future results.
+          </p>
+        </div>
+      </div>
+
       {/* Footer */}
       <footer className="border-t border-white/10 bg-black/50">
         <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-3 text-white/40 text-sm">
@@ -281,7 +291,7 @@ const HomePage = () => {
             <Link to="/blog"      className="hover:text-white/70 transition-colors">Blog</Link>
             <Link to="/forum"     className="hover:text-white/70 transition-colors">Forum</Link>
             <Link to="/resources" className="hover:text-white/70 transition-colors">Resources</Link>
-            <a href="https://www.strategy.com/bitcoin" target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">Strategy Inc</a>
+            <a href="https://www.strategy.com/btc" target="_blank" rel="noopener noreferrer" className="hover:text-white/70 transition-colors">Strategy Inc</a>
           </div>
         </div>
       </footer>
