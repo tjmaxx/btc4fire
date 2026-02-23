@@ -126,14 +126,17 @@ export default function Dashboard() {
           <p className="text-orange-400 text-sm mt-3 group-hover:underline">Read articles →</p>
         </Link>
 
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 opacity-50 cursor-not-allowed">
+        <Link
+          to="/portfolio"
+          className="bg-slate-800 border border-slate-700 hover:border-green-500/50 rounded-xl p-5 transition-all group"
+        >
           <div className="flex items-center gap-3 mb-2">
             <Wallet className="w-6 h-6 text-green-400" />
             <h3 className="text-white font-semibold">Portfolio Tracker</h3>
           </div>
-          <p className="text-slate-400 text-sm">Track your BTC holdings and P&L.</p>
-          <p className="text-slate-500 text-sm mt-3">Coming in Phase 3</p>
-        </div>
+          <p className="text-slate-400 text-sm">Track your BTC holdings, cost basis, and P&L.</p>
+          <p className="text-green-400 text-sm mt-3 group-hover:underline">Open portfolio →</p>
+        </Link>
       </div>
     </Layout>
   );
