@@ -40,10 +40,6 @@ jobs:
           VITE_ALPHA_VANTAGE_KEY: ${{ secrets.VITE_ALPHA_VANTAGE_KEY }}
         run: npm run build
 
-      - name: SPA routing fix
-        working-directory: frontend
-        run: cp dist/index.html dist/404.html
-
       - name: Create CNAME for custom domain
         working-directory: frontend
         run: echo 'btc4fire.com' > dist/CNAME

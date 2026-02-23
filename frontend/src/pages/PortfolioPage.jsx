@@ -6,7 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import Layout from '../components/Layout';
 import {
   Plus, Trash2, TrendingUp, TrendingDown, Bitcoin,
-  DollarSign, Target, ChevronUp, BarChart2, X, Download,
+  DollarSign, Target, ChevronUp, BarChart2, X, Download, Pencil, Check,
 } from 'lucide-react';
 
 function exportCSV(purchases) {
@@ -57,6 +57,9 @@ export default function PortfolioPage() {
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting]     = useState(null);
   const [fireTarget, setFireTarget] = useState(null);
+  const [editingFire, setEditingFire] = useState(false);
+  const [fireInput, setFireInput] = useState('');
+  const [fireLoading, setFireLoading] = useState(false);
 
   // ── Load purchases + FIRE target ─────────────────────────────────────────
   useEffect(() => {
@@ -155,6 +158,15 @@ export default function PortfolioPage() {
     const { error } = await supabase.from('btc_purchases').delete().eq('id', id);
     if (!error) setPurchases(prev => prev.filter(p => p.id !== id));
     setDeleting(null);
+  };
+
+  const saveFire = async () => {
+    const val = parseFloat(fireInput);
+    if (!val || val <= 0) return;
+    setFireLoading(true);
+    const { error } = await supabase.from('profiles').update({ fire_target: val }).eq('id', user.id);
+    if (!error) { setFireTarget(val); setEditingFire(false); }
+    setFireLoading(false);
   };
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -322,37 +334,87 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          {/* ── FIRE progress bar ─────────────────────────────────────────── */}
-          {fireTarget != null && stats?.currentValue != null && (
-            <div className={`border rounded-xl p-5 mb-6 ${fireAchieved ? 'bg-yellow-500/10 border-yellow-500/40' : 'bg-slate-800 border-slate-700'}`}>
-              <div className="flex items-center gap-2 mb-3">
-                <Target className={`w-5 h-5 ${fireAchieved ? 'text-yellow-400' : 'text-orange-400'}`} />
-                <h2 className="text-white font-semibold">
-                  {fireAchieved ? '🎯 FIRE Target Achieved!' : 'FIRE Target Progress'}
-                </h2>
-                <span className="ml-auto text-slate-400 text-sm">Goal: {fmt$(fireTarget)}</span>
-              </div>
-              <div className="h-3 bg-slate-700 rounded-full overflow-hidden mb-2">
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${fireAchieved ? 'bg-gradient-to-r from-yellow-400 to-yellow-300' : 'bg-gradient-to-r from-orange-500 to-yellow-400'}`}
-                  style={{ width: `${Math.min(fireProgress, 100)}%` }}
-                />
-              </div>
-              <div className="flex justify-between text-xs text-slate-500">
-                {fireAchieved ? (
-                  <>
-                    <span className="text-yellow-400 font-medium">{fireProgress?.toFixed(1)}% — goal exceeded by {fmt$(stats.currentValue - fireTarget)}</span>
-                    <span className="text-yellow-400">Keep stacking!</span>
-                  </>
-                ) : (
-                  <>
-                    <span>{fireProgress?.toFixed(1)}% of FIRE target</span>
-                    <span>{fmt$(fireTarget - stats.currentValue)} remaining</span>
-                  </>
-                )}
-              </div>
+          {/* ── FIRE target ───────────────────────────────────────────────── */}
+          <div className={`border rounded-xl p-5 mb-6 ${fireAchieved ? 'bg-yellow-500/10 border-yellow-500/40' : 'bg-slate-800 border-slate-700'}`}>
+            <div className="flex items-center gap-2 mb-3">
+              <Target className={`w-5 h-5 flex-shrink-0 ${fireAchieved ? 'text-yellow-400' : 'text-orange-400'}`} />
+              <h2 className="text-white font-semibold flex-1">
+                {fireAchieved ? '🎯 FIRE Target Achieved!' : 'FIRE Target'}
+              </h2>
+              {fireTarget != null && !editingFire && (
+                <span className="text-slate-400 text-sm">{fmt$(fireTarget)}</span>
+              )}
+              {!editingFire && (
+                <button
+                  onClick={() => { setEditingFire(true); setFireInput(fireTarget ? String(fireTarget) : ''); }}
+                  title={fireTarget ? 'Edit target' : 'Set target'}
+                  className="text-slate-500 hover:text-orange-400 transition-colors p-1"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+              )}
             </div>
-          )}
+
+            {editingFire ? (
+              <div className="flex gap-2 items-center">
+                <span className="text-slate-400 text-sm">$</span>
+                <input
+                  type="number" min="1" step="10000"
+                  placeholder="e.g. 1000000"
+                  value={fireInput}
+                  onChange={e => setFireInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && saveFire()}
+                  autoFocus
+                  className="flex-1 bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                />
+                <button
+                  onClick={saveFire}
+                  disabled={fireLoading}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  <Check className="w-4 h-4" /> Save
+                </button>
+                <button
+                  onClick={() => setEditingFire(false)}
+                  className="px-3 py-2 text-slate-400 hover:text-white text-sm rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : fireTarget == null ? (
+              <div className="text-center py-3">
+                <p className="text-slate-500 text-sm mb-3">Set a portfolio goal to track progress toward financial independence.</p>
+                <button
+                  onClick={() => { setEditingFire(true); setFireInput(''); }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 text-sm font-medium rounded-lg transition-colors"
+                >
+                  <Target className="w-4 h-4" /> Set FIRE Target
+                </button>
+              </div>
+            ) : stats?.currentValue != null ? (
+              <>
+                <div className="h-3 bg-slate-700 rounded-full overflow-hidden mb-2">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ${fireAchieved ? 'bg-gradient-to-r from-yellow-400 to-yellow-300' : 'bg-gradient-to-r from-orange-500 to-yellow-400'}`}
+                    style={{ width: `${Math.min(fireProgress, 100)}%` }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-slate-500">
+                  {fireAchieved ? (
+                    <>
+                      <span className="text-yellow-400 font-medium">{fireProgress?.toFixed(1)}% — exceeded by {fmt$(stats.currentValue - fireTarget)}</span>
+                      <span className="text-yellow-400">Keep stacking!</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{fireProgress?.toFixed(1)}% of goal</span>
+                      <span>{fmt$(fireTarget - stats.currentValue)} remaining</span>
+                    </>
+                  )}
+                </div>
+              </>
+            ) : null}
+          </div>
 
           {/* ── Portfolio value chart ─────────────────────────────────────── */}
           {chartData.length > 1 && (
