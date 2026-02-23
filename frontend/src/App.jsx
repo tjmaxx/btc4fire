@@ -14,6 +14,9 @@ import NewThreadPage from './pages/NewThreadPage';
 import ResourcesPage from './pages/ResourcesPage';
 import ProfilePage from './pages/ProfilePage';
 import PortfolioPage from './pages/PortfolioPage';
+import DCACalculatorPage from './pages/DCACalculatorPage';
+import FireCalculatorPage from './pages/FireCalculatorPage';
+import AdminPage from './pages/AdminPage';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -41,12 +44,15 @@ function App() {
           <Route path="/forum"             element={<ForumPage />} />
           <Route path="/forum/thread/:id"  element={<ThreadPage />} />
           <Route path="/resources"         element={<ResourcesPage />} />
+          <Route path="/dca"               element={<DCACalculatorPage />} />
+          <Route path="/fire-calculator"   element={<FireCalculatorPage />} />
           <Route path="/profile/:username" element={<ProfilePage />} />
 
           {/* Protected */}
           <Route path="/forum/new"  element={<ProtectedRoute><NewThreadPage /></ProtectedRoute>} />
           <Route path="/dashboard"  element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/portfolio"  element={<ProtectedRoute><PortfolioPage /></ProtectedRoute>} />
+          <Route path="/admin"      element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

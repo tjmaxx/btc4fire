@@ -18,6 +18,8 @@ export default function Navbar() {
   const navLinks = [
     { to: '/blog', label: 'Blog' },
     { to: '/forum', label: 'Forum' },
+    { to: '/dca', label: 'DCA Calc' },
+    { to: '/fire-calculator', label: 'FIRE Calc' },
     { to: '/resources', label: 'Resources' },
     ...(isAuthenticated ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
   ];

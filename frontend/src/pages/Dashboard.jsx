@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRealtimePrice, useHistoricalPrice } from '../hooks/useRealtimePrice';
 import { useSignal } from '../hooks/useSignal';
+import { usePriceAlert } from '../hooks/usePriceAlert';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { DollarSign, TrendingUp, MessageSquare, BookOpen, Wallet, Activity } from 'lucide-react';
+import { DollarSign, TrendingUp, MessageSquare, BookOpen, Wallet, Activity, Bell, BellOff, Trash2 } from 'lucide-react';
 import Layout from '../components/Layout';
+import SatConverter from '../components/SatConverter';
 
 const SIGNAL_STYLES = {
   STRONG_BUY:  { label: 'Strong Buy',  bg: 'bg-green-500/20',  text: 'text-green-400',  border: 'border-green-500/40' },
@@ -28,6 +30,10 @@ export default function Dashboard() {
   const { price, loading: priceLoading, error: priceError } = useRealtimePrice();
   const { data: historicalData, loading: historyLoading } = useHistoricalPrice(7);
   const { signal, loading: signalLoading } = useSignal();
+  const { alerts, addAlert, removeAlert } = usePriceAlert(price?.price ?? null);
+
+  const [alertInput, setAlertInput] = useState('');
+  const [alertDir, setAlertDir] = useState('above');
 
   return (
     <Layout>
@@ -179,6 +185,75 @@ export default function Dashboard() {
         })() : (
           <p className="text-slate-500 text-sm">Signal unavailable.</p>
         )}
+      </div>
+
+      {/* Sat Converter + Price Alerts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+        <SatConverter />
+
+        {/* Price Alerts */}
+        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Bell className="w-5 h-5 text-blue-400" />
+            <h3 className="text-white font-semibold">Price Alerts</h3>
+          </div>
+
+          {/* Add alert form */}
+          <div className="flex gap-2 mb-4">
+            <select
+              value={alertDir}
+              onChange={e => setAlertDir(e.target.value)}
+              className="bg-slate-900 border border-slate-600 text-slate-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-orange-500"
+            >
+              <option value="above">Above</option>
+              <option value="below">Below</option>
+            </select>
+            <input
+              type="number"
+              value={alertInput}
+              onChange={e => setAlertInput(e.target.value)}
+              placeholder="Target price (USD)"
+              className="flex-1 bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+            />
+            <button
+              onClick={async () => {
+                if (!alertInput || isNaN(Number(alertInput))) return;
+                await addAlert(alertInput, alertDir);
+                setAlertInput('');
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Set
+            </button>
+          </div>
+
+          {/* Active alerts */}
+          {alerts.length === 0 ? (
+            <div className="text-center py-4">
+              <BellOff className="w-8 h-8 text-slate-700 mx-auto mb-2" />
+              <p className="text-slate-500 text-xs">No active alerts. Browser notifications required.</p>
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {alerts.map(a => (
+                <li key={a.id} className="flex items-center justify-between bg-slate-900 rounded-lg px-3 py-2">
+                  <span className="text-slate-300 text-sm">
+                    <span className={a.direction === 'above' ? 'text-green-400' : 'text-red-400'}>
+                      {a.direction === 'above' ? '↑' : '↓'}
+                    </span>{' '}
+                    ${Number(a.targetPrice).toLocaleString()}
+                  </span>
+                  <button
+                    onClick={() => removeAlert(a.id)}
+                    className="text-slate-600 hover:text-red-400 transition-colors p-1"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       {/* Quick links */}

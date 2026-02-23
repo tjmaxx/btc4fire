@@ -45,39 +45,50 @@ function ArticleCard({ article }) {
   );
 }
 
+const PAGE_SIZE = 12;
+
 export default function BlogPage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(0);
   const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [featured, setFeatured] = useState(null);
+
 
   useEffect(() => {
     const fetchArticles = async () => {
-      setLoading(true);
+      page === 0 ? setLoading(true) : setLoadingMore(true);
+
       let query = supabase
         .from('articles')
         .select('id, title, slug, excerpt, category, created_at, featured')
         .eq('published', true)
         .order('featured', { ascending: false })
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
 
       if (category !== 'all') query = query.eq('category', category);
+      if (search) query = query.or(`title.ilike.%${search}%,excerpt.ilike.%${search}%`);
 
       const { data } = await query;
-      setArticles(data || []);
+      const results = data || [];
+
+      if (page === 0) {
+        setArticles(results);
+        setFeatured(results.find(a => a.featured) || null);
+      } else {
+        setArticles(prev => [...prev, ...results]);
+      }
+
+      setHasMore(results.length === PAGE_SIZE);
       setLoading(false);
+      setLoadingMore(false);
     };
     fetchArticles();
-  }, [category]);
-
-  const featured = articles.find(a => a.featured);
-  const filtered = articles.filter(a => {
-    if (search) {
-      const q = search.toLowerCase();
-      return a.title.toLowerCase().includes(q) || a.excerpt?.toLowerCase().includes(q);
-    }
-    return true;
-  });
+  }, [category, search, page]);
 
   return (
     <Layout>
@@ -90,7 +101,7 @@ export default function BlogPage() {
       </div>
 
       {/* Featured article */}
-      {featured && category === 'all' && !search && (
+      {featured && category === 'all' && !search && page === 0 && (
         <Link
           to={`/blog/${featured.slug}`}
           className="block bg-gradient-to-r from-orange-500/10 to-blue-500/10 border border-orange-500/30 rounded-2xl p-6 mb-8 hover:border-orange-500/60 transition-all group"
@@ -112,7 +123,7 @@ export default function BlogPage() {
           {CATEGORIES.map(cat => (
             <button
               key={cat.value}
-              onClick={() => { setCategory(cat.value); setSearch(''); }}
+              onClick={() => { setCategory(cat.value); setSearch(''); setPage(0); setArticles([]); }}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 category === cat.value
                   ? 'bg-orange-500 text-white'
@@ -127,7 +138,7 @@ export default function BlogPage() {
           type="text"
           placeholder="Search articles..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => { setSearch(e.target.value); setPage(0); setArticles([]); }}
           className="bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-4 py-1.5 text-sm flex-1 focus:outline-none focus:border-orange-500 transition-colors"
         />
       </div>
@@ -136,12 +147,25 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1, 2, 3].map(i => <div key={i} className="bg-slate-800 rounded-xl h-48 animate-pulse" />)}
         </div>
-      ) : filtered.length === 0 ? (
+      ) : articles.length === 0 ? (
         <div className="text-center py-16 text-slate-500">No articles found.</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map(article => <ArticleCard key={article.id} article={article} />)}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {articles.map(article => <ArticleCard key={article.id} article={article} />)}
+          </div>
+          {hasMore && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setPage(p => p + 1)}
+                disabled={loadingMore}
+                className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
+              >
+                {loadingMore ? 'Loading…' : 'Load more articles'}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </Layout>
   );

@@ -21,7 +21,7 @@ export default function MarkdownRenderer({ content }) {
 
   const lines = content.split('\n');
   const elements = [];
-  let inTable = false;
+  let _inTable = false;
 
   lines.forEach((line, idx) => {
     // Headings

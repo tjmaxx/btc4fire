@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
+import { useAuth } from '../context/AuthContext';
 import Layout from '../components/Layout';
 import MarkdownRenderer from '../components/MarkdownRenderer';
-import { ArrowLeft, Clock, Tag } from 'lucide-react';
+import { ArrowLeft, Clock, Tag, MessageSquare, Send } from 'lucide-react';
 
 const CATEGORY_COLORS = {
   news: 'bg-blue-500/20 text-blue-400',
@@ -14,8 +15,13 @@ const CATEGORY_COLORS = {
 
 export default function ArticlePage() {
   const { slug } = useParams();
+  const { user, isAuthenticated } = useAuth();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState('');
+  const [commentSubmitting, setCommentSubmitting] = useState(false);
+  const [commentError, setCommentError] = useState('');
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -30,14 +36,36 @@ export default function ArticlePage() {
       setLoading(false);
 
       if (data) {
-        supabase
-          .from('articles')
-          .update({ view_count: (data.view_count || 0) + 1 })
-          .eq('id', data.id);
+        supabase.from('articles').update({ view_count: (data.view_count || 0) + 1 }).eq('id', data.id);
+        const { data: commentData } = await supabase
+          .from('article_comments')
+          .select('*, profiles(username)')
+          .eq('article_id', data.id)
+          .order('created_at', { ascending: true });
+        setComments(commentData || []);
       }
     };
     fetchArticle();
   }, [slug]);
+
+  const handleComment = async (e) => {
+    e.preventDefault();
+    if (!commentText.trim() || !user) return;
+    setCommentSubmitting(true);
+    setCommentError('');
+    const { data, error } = await supabase
+      .from('article_comments')
+      .insert({ article_id: article.id, author_id: user.id, content: commentText.trim() })
+      .select('*, profiles(username)')
+      .single();
+    if (error) {
+      setCommentError('Failed to post comment. Please try again.');
+    } else {
+      setComments(prev => [...prev, data]);
+      setCommentText('');
+    }
+    setCommentSubmitting(false);
+  };
 
   if (loading) {
     return (
@@ -113,6 +141,66 @@ export default function ArticlePage() {
             ))}
           </div>
         )}
+
+        {/* Comments */}
+        <div className="mt-10 border-t border-slate-700 pt-8">
+          <h2 className="text-white font-semibold mb-5 flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-orange-400" />
+            Comments ({comments.length})
+          </h2>
+
+          {comments.length > 0 && (
+            <div className="space-y-4 mb-6">
+              {comments.map(c => (
+                <div key={c.id} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <div className="w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-400 text-xs font-bold flex-shrink-0">
+                      {c.profiles?.username?.[0]?.toUpperCase() || '?'}
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-medium">{c.profiles?.username || 'Anonymous'}</p>
+                      <p className="text-slate-500 text-xs">
+                        {new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-slate-300 text-sm leading-relaxed">{c.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {isAuthenticated ? (
+            <form onSubmit={handleComment} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+              <textarea
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
+                placeholder="Share your thoughts…"
+                rows={3}
+                className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-500 rounded-lg p-3 text-sm focus:outline-none focus:border-orange-500 resize-none transition-colors"
+              />
+              {commentError && <p className="text-red-400 text-xs mt-2">{commentError}</p>}
+              <div className="flex justify-end mt-3">
+                <button
+                  type="submit"
+                  disabled={commentSubmitting || !commentText.trim()}
+                  className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                  {commentSubmitting ? 'Posting…' : 'Post Comment'}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 text-center">
+              <p className="text-slate-300 mb-3">Sign in to leave a comment</p>
+              <div className="flex justify-center gap-3">
+                <Link to="/login" className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">Log In</Link>
+                <Link to="/signup" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Sign Up</Link>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* CTA */}
         <div className="mt-8 p-5 bg-slate-800 rounded-xl border border-slate-700 text-center">

@@ -6,8 +6,27 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import Layout from '../components/Layout';
 import {
   Plus, Trash2, TrendingUp, TrendingDown, Bitcoin,
-  DollarSign, Target, ChevronUp, BarChart2, X,
+  DollarSign, Target, ChevronUp, BarChart2, X, Download,
 } from 'lucide-react';
+
+function exportCSV(purchases) {
+  const rows = [
+    ['Date', 'BTC Amount', 'Buy Price (USD)', 'Cost (USD)', 'Notes'],
+    ...purchases.map(p => [
+      p.purchase_date,
+      p.btc_amount,
+      p.purchase_price_usd,
+      (Number(p.btc_amount) * Number(p.purchase_price_usd)).toFixed(2),
+      p.notes || '',
+    ]),
+  ];
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'btc-portfolio.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
 const fmt$ = (v, d = 0) => {
   if (v == null || isNaN(v)) return '—';
@@ -16,10 +35,6 @@ const fmt$ = (v, d = 0) => {
 const fmtPct = (v) => {
   if (v == null || isNaN(v)) return '—';
   return (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
-};
-const fmtBTC = (v) => {
-  if (v == null) return '—';
-  return parseFloat(v).toFixed(6) + ' BTC';
 };
 
 const EMPTY_FORM = {
@@ -371,9 +386,18 @@ export default function PortfolioPage() {
           <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
             <div className="px-5 py-4 border-b border-slate-700 flex items-center justify-between">
               <h2 className="text-white font-semibold">Purchase History</h2>
-              <span className="text-slate-500 text-xs">
-                {purchases.length} {purchases.length === 1 ? 'entry' : 'entries'} · {fmt$(stats?.totalInvested)} total invested
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500 text-xs">
+                  {purchases.length} {purchases.length === 1 ? 'entry' : 'entries'} · {fmt$(stats?.totalInvested)} total invested
+                </span>
+                <button
+                  onClick={() => exportCSV(purchases)}
+                  title="Export to CSV"
+                  className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" /> Export CSV
+                </button>
+              </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
