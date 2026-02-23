@@ -96,8 +96,9 @@ export default function PortfolioPage() {
   }, [purchases, currentPrice]);
 
   const fireProgress = stats?.currentValue != null && fireTarget
-    ? Math.min((stats.currentValue / fireTarget) * 100, 100)
+    ? (stats.currentValue / fireTarget) * 100
     : null;
+  const fireAchieved = fireProgress !== null && fireProgress >= 100;
 
   // ── Form handlers ─────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
@@ -136,8 +137,8 @@ export default function PortfolioPage() {
 
   const handleDelete = async (id) => {
     setDeleting(id);
-    await supabase.from('btc_purchases').delete().eq('id', id);
-    setPurchases(prev => prev.filter(p => p.id !== id));
+    const { error } = await supabase.from('btc_purchases').delete().eq('id', id);
+    if (!error) setPurchases(prev => prev.filter(p => p.id !== id));
     setDeleting(null);
   };
 
@@ -308,21 +309,32 @@ export default function PortfolioPage() {
 
           {/* ── FIRE progress bar ─────────────────────────────────────────── */}
           {fireTarget != null && stats?.currentValue != null && (
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+            <div className={`border rounded-xl p-5 mb-6 ${fireAchieved ? 'bg-yellow-500/10 border-yellow-500/40' : 'bg-slate-800 border-slate-700'}`}>
               <div className="flex items-center gap-2 mb-3">
-                <Target className="w-5 h-5 text-orange-400" />
-                <h2 className="text-white font-semibold">FIRE Target Progress</h2>
+                <Target className={`w-5 h-5 ${fireAchieved ? 'text-yellow-400' : 'text-orange-400'}`} />
+                <h2 className="text-white font-semibold">
+                  {fireAchieved ? '🎯 FIRE Target Achieved!' : 'FIRE Target Progress'}
+                </h2>
                 <span className="ml-auto text-slate-400 text-sm">Goal: {fmt$(fireTarget)}</span>
               </div>
               <div className="h-3 bg-slate-700 rounded-full overflow-hidden mb-2">
                 <div
-                  className="h-full bg-gradient-to-r from-orange-500 to-yellow-400 rounded-full transition-all duration-700"
-                  style={{ width: `${fireProgress}%` }}
+                  className={`h-full rounded-full transition-all duration-700 ${fireAchieved ? 'bg-gradient-to-r from-yellow-400 to-yellow-300' : 'bg-gradient-to-r from-orange-500 to-yellow-400'}`}
+                  style={{ width: `${Math.min(fireProgress, 100)}%` }}
                 />
               </div>
               <div className="flex justify-between text-xs text-slate-500">
-                <span>{fireProgress?.toFixed(1)}% of FIRE target</span>
-                <span>{fmt$(fireTarget - stats.currentValue)} remaining</span>
+                {fireAchieved ? (
+                  <>
+                    <span className="text-yellow-400 font-medium">{fireProgress?.toFixed(1)}% — goal exceeded by {fmt$(stats.currentValue - fireTarget)}</span>
+                    <span className="text-yellow-400">Keep stacking!</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{fireProgress?.toFixed(1)}% of FIRE target</span>
+                    <span>{fmt$(fireTarget - stats.currentValue)} remaining</span>
+                  </>
+                )}
               </div>
             </div>
           )}

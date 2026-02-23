@@ -8,8 +8,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, resetPassword, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
   React.useEffect(() => {
@@ -30,6 +34,14 @@ const LoginPage = () => {
     } else {
       navigate('/dashboard');
     }
+  };
+
+  const handleReset = async (e) => {
+    e.preventDefault();
+    setResetLoading(true);
+    await resetPassword(resetEmail);
+    setResetLoading(false);
+    setResetSent(true);
   };
 
   return (
@@ -88,6 +100,43 @@ const LoginPage = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={() => { setShowReset(v => !v); setResetSent(false); }}
+            className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+          >
+            Forgot password?
+          </button>
+        </div>
+
+        {showReset && (
+          <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            {resetSent ? (
+              <p className="text-green-700 text-sm text-center">Check your email for a reset link.</p>
+            ) : (
+              <form onSubmit={handleReset} className="space-y-3">
+                <p className="text-gray-600 text-sm">Enter your email and we'll send a reset link.</p>
+                <input
+                  type="email"
+                  value={resetEmail}
+                  onChange={e => setResetEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="w-full bg-blue-600 text-white text-sm font-medium py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
+                >
+                  {resetLoading ? 'Sending…' : 'Send Reset Link'}
+                </button>
+              </form>
+            )}
+          </div>
+        )}
 
         <div className="mt-6 text-center text-gray-600">
           <p>Don't have an account?{' '}

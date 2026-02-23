@@ -5,9 +5,20 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const loadProfile = useCallback(async (userId) => {
+    if (!userId) { setProfile(null); return; }
+    const { data } = await supabase
+      .from('profiles')
+      .select('username, display_name, is_admin')
+      .eq('id', userId)
+      .single();
+    setProfile(data || null);
+  }, []);
 
   // Initialize auth state on mount
   useEffect(() => {
@@ -16,6 +27,7 @@ export const AuthProvider = ({ children }) => {
         const { data: { session } } = await supabase.auth.getSession();
         setSession(session);
         setUser(session?.user || null);
+        await loadProfile(session?.user?.id);
       } catch (err) {
         console.error('Auth initialization error:', err);
         setError(err.message);
@@ -28,14 +40,15 @@ export const AuthProvider = ({ children }) => {
 
     // Subscribe to auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (_event, session) => {
         setSession(session);
         setUser(session?.user || null);
+        await loadProfile(session?.user?.id);
       }
     );
 
     return () => subscription?.unsubscribe();
-  }, []);
+  }, [loadProfile]);
 
   const signup = useCallback(async (email, password) => {
     try {
@@ -93,6 +106,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    profile,
     session,
     loading,
     error,

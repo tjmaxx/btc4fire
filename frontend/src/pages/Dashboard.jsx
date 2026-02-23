@@ -1,9 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRealtimePrice, useHistoricalPrice } from '../hooks/useRealtimePrice';
+import { useSignal } from '../hooks/useSignal';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { DollarSign, TrendingUp, MessageSquare, BookOpen, Wallet } from 'lucide-react';
+import { DollarSign, TrendingUp, MessageSquare, BookOpen, Wallet, Activity } from 'lucide-react';
 import Layout from '../components/Layout';
+
+const SIGNAL_STYLES = {
+  STRONG_BUY:  { label: 'Strong Buy',  bg: 'bg-green-500/20',  text: 'text-green-400',  border: 'border-green-500/40' },
+  BUY:         { label: 'Buy',         bg: 'bg-emerald-500/20',text: 'text-emerald-400',border: 'border-emerald-500/40' },
+  HOLD:        { label: 'Hold',        bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/40' },
+  SELL:        { label: 'Sell',        bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500/40' },
+  STRONG_SELL: { label: 'Strong Sell', bg: 'bg-red-500/20',    text: 'text-red-400',    border: 'border-red-500/40' },
+};
 
 const formatCurrency = (value) => {
   if (!value) return '$0.00';
@@ -18,6 +27,7 @@ const formatPercent = (value) => {
 export default function Dashboard() {
   const { price, loading: priceLoading, error: priceError } = useRealtimePrice();
   const { data: historicalData, loading: historyLoading } = useHistoricalPrice(7);
+  const { signal, loading: signalLoading } = useSignal();
 
   return (
     <Layout>
@@ -97,6 +107,77 @@ export default function Dashboard() {
           </ResponsiveContainer>
         ) : (
           <p className="text-slate-500 text-sm">No chart data available.</p>
+        )}
+      </div>
+
+      {/* Technical Signal */}
+      <div className="bg-slate-800 rounded-xl p-5 border border-slate-700 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-white font-semibold flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-400" /> Technical Signal
+          </h2>
+          {signal && (
+            <span className="text-slate-500 text-xs">
+              {new Date(signal.created_at).toLocaleString()}
+            </span>
+          )}
+        </div>
+
+        {signalLoading ? (
+          <div className="h-24 bg-slate-700 rounded animate-pulse" />
+        ) : signal ? (() => {
+          const style = SIGNAL_STYLES[signal.signal_type] || SIGNAL_STYLES.HOLD;
+          return (
+            <>
+              <div className="flex items-center gap-4 mb-4">
+                <span className={`text-2xl font-bold px-4 py-2 rounded-lg border ${style.bg} ${style.text} ${style.border}`}>
+                  {style.label}
+                </span>
+                {/* Score bar -5 to +5 */}
+                <div className="flex-1">
+                  <div className="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>Bearish</span>
+                    <span className={`font-medium ${style.text}`}>Score: {signal.score > 0 ? '+' : ''}{signal.score}</span>
+                    <span>Bullish</span>
+                  </div>
+                  <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all ${style.bg.replace('/20', '')}`}
+                      style={{ width: `${((signal.score + 5) / 10) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Indicators grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                {[
+                  { label: 'RSI (14)', value: signal.rsi?.toFixed(1) ?? '—' },
+                  { label: 'SMA 20', value: signal.sma20 ? formatCurrency(signal.sma20) : '—' },
+                  { label: 'SMA 50', value: signal.sma50 ? formatCurrency(signal.sma50) : '—' },
+                  { label: 'MACD', value: signal.macd?.toFixed(2) ?? '—' },
+                ].map(({ label, value }) => (
+                  <div key={label} className="bg-slate-900 rounded-lg p-3 text-center">
+                    <p className="text-slate-500 text-xs mb-1">{label}</p>
+                    <p className="text-white text-sm font-medium">{value}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Reasoning */}
+              <ul className="space-y-1 mb-3">
+                {(Array.isArray(signal.reasoning) ? signal.reasoning : [signal.reasoning]).map((r, i) => (
+                  <li key={i} className="text-slate-400 text-xs flex items-start gap-1.5">
+                    <span className={`mt-0.5 flex-shrink-0 ${style.text}`}>•</span>{r}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-slate-600 text-xs">For educational purposes only. Not financial advice.</p>
+            </>
+          );
+        })() : (
+          <p className="text-slate-500 text-sm">Signal unavailable.</p>
         )}
       </div>
 

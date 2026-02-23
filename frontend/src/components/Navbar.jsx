@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Bitcoin, Menu, X, LogOut, User } from 'lucide-react';
 
 export default function Navbar() {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, profile, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function Navbar() {
   ];
 
   const isActive = (path) => location.pathname.startsWith(path);
-  const username = user?.email?.split('@')[0] || '';
+  const username = profile?.username || user?.email?.split('@')[0] || '';
 
   return (
     <nav className="bg-slate-900 border-b border-slate-700 sticky top-0 z-50">
