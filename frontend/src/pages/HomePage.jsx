@@ -7,6 +7,7 @@ import MythAccordion from '../components/MythAccordion';
 import OnboardingModal from '../components/OnboardingModal';
 import BTCvsSnP from '../components/BTCvsSnP';
 import Navbar from '../components/Navbar';
+import MarketInsight from '../components/MarketInsight';
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
@@ -49,6 +50,9 @@ const HomePage = () => {
             <Link to="/forum" className="inline-block px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg transition-colors">Join the Forum</Link>
           </div>
         </div>
+
+        {/* AI daily market insight */}
+        <MarketInsight />
 
         {/* Strategy Inc spotlight */}
         <div className="bg-gradient-to-r from-orange-900/40 to-slate-900/40 border border-orange-500/30 rounded-2xl p-8 mb-10">
