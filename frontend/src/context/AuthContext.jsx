@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../services/supabaseClient';
 
 export const AuthContext = createContext();
@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const mountedRef = useRef(true);
 
   const loadProfile = useCallback(async (userId) => {
     if (!userId) { setProfile(null); return; }
@@ -18,46 +19,39 @@ export const AuthProvider = ({ children }) => {
       .select('username, display_name, is_admin')
       .eq('id', userId)
       .single();
-    setProfile(data || null);
+    if (mountedRef.current) setProfile(data || null);
   }, []);
 
-  // Initialize auth state on mount
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        setSession(session);
-        setUser(session?.user || null);
-        await loadProfile(session?.user?.id);
-      } catch (err) {
-        console.error('Auth initialization error:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    mountedRef.current = true;
 
-    initializeAuth();
-
-    // Subscribe to auth changes
+    // Supabase v2: onAuthStateChange fires immediately with INITIAL_SESSION,
+    // so we use it as the single source of truth. setLoading(false) is called
+    // before profile loads so ProtectedRoute never hangs.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
+        if (!mountedRef.current) return;
         setSession(session);
         setUser(session?.user || null);
-        await loadProfile(session?.user?.id);
+        setLoading(false); // auth state is now known — unblock the UI
+        if (session?.user) {
+          loadProfile(session.user.id); // non-blocking background load
+        } else {
+          setProfile(null);
+        }
       }
     );
 
-    return () => subscription?.unsubscribe();
+    return () => {
+      mountedRef.current = false;
+      subscription?.unsubscribe();
+    };
   }, [loadProfile]);
 
   const signup = useCallback(async (email, password) => {
     try {
       setError(null);
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
       return { data, error: null };
     } catch (err) {
@@ -69,10 +63,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (email, password) => {
     try {
       setError(null);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       return { data, error: null };
     } catch (err) {
