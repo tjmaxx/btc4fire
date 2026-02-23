@@ -25,7 +25,10 @@ export function useMarketInsight() {
 
       try {
         const res = await fetch(ENDPOINT, {
-          headers: { apikey: ANON_KEY },
+          headers: {
+            apikey: ANON_KEY,
+            Authorization: `Bearer ${ANON_KEY}`,
+          },
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
