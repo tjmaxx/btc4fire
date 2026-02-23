@@ -55,7 +55,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function BTCvsSnP() {
-  const [range, setRange] = useState(RANGE_OPTIONS[1]); // default 3Y
+  const [range, setRange] = useState(RANGE_OPTIONS[0]); // default 1Y
   const { data: btcRaw, loading: btcLoading } = useHistoricalPrice(range.days);
   const [chartData, setChartData] = useState([]);
   const [spyError, setSpyError] = useState(false);
@@ -110,7 +110,7 @@ export default function BTCvsSnP() {
           {RANGE_OPTIONS.map(opt => (
             <button
               key={opt.label}
-              onClick={() => { setLoading(true); setRange(opt); }}
+              onClick={() => { setLoading(true); setSpyError(false); setRange(opt); }}
               className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                 range.label === opt.label
                   ? 'bg-orange-500 text-white'
