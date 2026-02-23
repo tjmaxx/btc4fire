@@ -174,7 +174,7 @@ const HomePage = () => {
               { icon: BookOpen,      color: 'text-green-400',  title: 'Blog & Guides',        desc: 'Deep-dives on Bitcoin, FIRE maths, DCA strategies, and self-custody.',     link: '/blog' },
               { icon: MessageSquare, color: 'text-purple-400', title: 'Community Forum',      desc: 'Share FIRE numbers, DCA plans, and milestones with fellow stackers.',      link: '/forum' },
               { icon: Layers,        color: 'text-yellow-400', title: 'Resource Library',     desc: 'Curated books, tools, and courses — from Bitcoin basics to cold storage.',  link: '/resources' },
-              { icon: Users,         color: 'text-pink-400',   title: 'Portfolio Tracker',    desc: 'Track BTC holdings, cost basis, and P&L in real time. Coming Phase 3.',    link: '/dashboard' },
+              { icon: Users,         color: 'text-pink-400',   title: 'Portfolio Tracker',    desc: 'Log BTC purchases, track cost basis, unrealized P&L, and FIRE progress.',  link: '/portfolio' },
             ].map(({ icon, color, title, desc, link }) => {
               const FeatureIcon = icon;
               return (
