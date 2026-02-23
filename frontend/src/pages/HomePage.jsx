@@ -1,48 +1,21 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Bitcoin, TrendingUp, Users, BookOpen, MessageSquare, Layers, ExternalLink, ArrowRight } from 'lucide-react';
 import { SAYLOR_QUOTES, STRATEGY_STATS, FIRE_PRINCIPLES, BTC_NEWS_LINKS } from '../data/homeContent';
 import MythAccordion from '../components/MythAccordion';
 import OnboardingModal from '../components/OnboardingModal';
 import BTCvsSnP from '../components/BTCvsSnP';
+import Navbar from '../components/Navbar';
 
 const HomePage = () => {
-  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
   return (
     <>
     <OnboardingModal />
+    <Navbar />
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-slate-900 to-orange-900">
-
-      {/* Navigation */}
-      <nav className="bg-black/40 backdrop-blur-sm sticky top-0 z-50 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-2xl font-bold text-white">
-            <Bitcoin className="w-7 h-7 text-orange-400" />
-            BTC<span className="text-orange-400">4</span>FIRE
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link to="/blog"      className="hidden sm:block text-white/70 hover:text-white text-sm transition-colors">Blog</Link>
-            <Link to="/forum"     className="hidden sm:block text-white/70 hover:text-white text-sm transition-colors">Forum</Link>
-            <Link to="/resources" className="hidden sm:block text-white/70 hover:text-white text-sm transition-colors">Resources</Link>
-            {isAuthenticated ? (
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
-              >
-                Dashboard
-              </button>
-            ) : (
-              <>
-                <Link to="/login"  className="px-4 py-2 hover:bg-white/10 text-white text-sm rounded-lg transition-colors">Log In</Link>
-                <Link to="/signup" className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm rounded-lg transition-colors">Sign Up</Link>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
 
       <div className="max-w-7xl mx-auto px-4">
 
