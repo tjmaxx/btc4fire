@@ -101,7 +101,7 @@ export default function Dashboard() {
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={historicalData}>
               <CartesianGrid stroke="#1e293b" />
-              <XAxis dataKey="date" stroke="#475569" tick={{ fontSize: 12 }} />
+              <XAxis dataKey="date" stroke="#475569" tick={{ fontSize: 12 }} tickFormatter={d => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} />
               <YAxis stroke="#475569" tick={{ fontSize: 12 }} tickFormatter={v => '$' + (v / 1000).toFixed(0) + 'k'} />
               <Tooltip
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}

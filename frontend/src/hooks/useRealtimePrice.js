@@ -21,7 +21,7 @@ async function cgFetch(path) {
 function toDailyPoints(prices) {
   const dailyMap = new Map();
   for (const [ts, px] of prices) {
-    const label = new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const label = new Date(ts).toISOString().slice(0, 10); // YYYY-MM-DD
     dailyMap.set(label, px);
   }
   return Array.from(dailyMap.entries()).map(([date, price]) => ({ date, price }));

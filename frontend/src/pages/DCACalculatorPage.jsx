@@ -171,7 +171,7 @@ export default function DCACalculatorPage() {
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={sim.chartData}>
                     <CartesianGrid stroke="#1e293b" />
-                    <XAxis dataKey="date" stroke="#475569" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
+                    <XAxis dataKey="date" stroke="#475569" tick={{ fontSize: 11 }} interval="preserveStartEnd" tickFormatter={d => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: '2-digit' })} />
                     <YAxis stroke="#475569" tick={{ fontSize: 11 }} tickFormatter={v => '$' + (v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v)} />
                     <Tooltip
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
