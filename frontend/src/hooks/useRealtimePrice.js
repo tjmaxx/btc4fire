@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react';
 
-// Points to the Express backend, not Supabase Edge Functions
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api') + '/btc-data';
+const COINGECKO_BASE = 'https://api.coingecko.com/api/v3';
 
-async function apiFetch(path) {
-  const res = await fetch(`${API_BASE_URL}${path}`);
+async function cgFetch(path) {
+  const res = await fetch(`${COINGECKO_BASE}${path}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
+}
+
+// Downsample CoinGecko [[timestamp_ms, price], ...] to one entry per day
+function toDailyPoints(prices) {
+  const dailyMap = new Map();
+  for (const [ts, px] of prices) {
+    const label = new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    dailyMap.set(label, px);
+  }
+  return Array.from(dailyMap.entries()).map(([date, price]) => ({ date, price }));
 }
 
 export const useRealtimePrice = (refreshInterval = 60000) => {
@@ -19,8 +28,18 @@ export const useRealtimePrice = (refreshInterval = 60000) => {
 
     const fetchPrice = async () => {
       try {
-        const data = await apiFetch('/price');
-        if (!cancelled) { setPrice(data); setError(null); }
+        const data = await cgFetch(
+          '/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'
+        );
+        if (!cancelled) {
+          setPrice({
+            price: data.bitcoin.usd,
+            change24h: data.bitcoin.usd_24h_change,
+            marketCap: data.bitcoin.usd_market_cap,
+            timestamp: new Date().toISOString(),
+          });
+          setError(null);
+        }
       } catch (err) {
         if (!cancelled) setError(err.message);
         console.error('Error fetching BTC price:', err);
@@ -47,8 +66,11 @@ export const useHistoricalPrice = (days = 7) => {
 
     const fetchHistory = async () => {
       try {
-        const result = await apiFetch(`/history?days=${days}`);
-        if (!cancelled) { setData(result); setError(null); }
+        const result = await cgFetch(`/coins/bitcoin/market_chart?vs_currency=usd&days=${days}`);
+        if (!cancelled) {
+          setData(toDailyPoints(result.prices));
+          setError(null);
+        }
       } catch (err) {
         if (!cancelled) setError(err.message);
         console.error('Error fetching historical data:', err);
@@ -74,8 +96,11 @@ export const useTechnicalData = (days = 30) => {
 
     const fetchTechnical = async () => {
       try {
-        const result = await apiFetch(`/technical?days=${days}`);
-        if (!cancelled) { setData(result); setError(null); }
+        const result = await cgFetch(`/coins/bitcoin/market_chart?vs_currency=usd&days=${days}`);
+        if (!cancelled) {
+          setData(toDailyPoints(result.prices));
+          setError(null);
+        }
       } catch (err) {
         if (!cancelled) setError(err.message);
         console.error('Error fetching technical data:', err);
