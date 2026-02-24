@@ -127,6 +127,14 @@ const HomePage = () => {
         {/* ── 3. AI MARKET INSIGHT + BTC vs S&P 500 ── */}
         <Section tint>
           <ScrollSection>
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-white mb-2">Today's Market Signal</h2>
+              <p className="text-white/50 text-sm max-w-xl mx-auto">
+                AI-generated daily insight based on live price, ATH distance, and 52-week range — paired with a long-term BTC vs S&amp;P 500 comparison.
+              </p>
+            </div>
+          </ScrollSection>
+          <ScrollSection>
             <MarketInsight />
           </ScrollSection>
           <ScrollSection>
