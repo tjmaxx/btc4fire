@@ -124,10 +124,13 @@ const HomePage = () => {
 
         <Divider />
 
-        {/* ── 3. AI MARKET INSIGHT ── */}
+        {/* ── 3. AI MARKET INSIGHT + BTC vs S&P 500 ── */}
         <Section tint>
           <ScrollSection>
             <MarketInsight />
+          </ScrollSection>
+          <ScrollSection>
+            <BTCvsSnP />
           </ScrollSection>
         </Section>
 
@@ -210,16 +213,7 @@ const HomePage = () => {
 
         <Divider />
 
-        {/* ── 6. BTC vs S&P 500 ── */}
-        <Section>
-          <ScrollSection>
-            <BTCvsSnP />
-          </ScrollSection>
-        </Section>
-
-        <Divider />
-
-        {/* ── 7. MYTHS & OBJECTIONS ── */}
+        {/* ── 6. MYTHS & OBJECTIONS ── */}
         <Section tint>
           <ScrollSection>
             <div className="flex items-start justify-between gap-4 mb-2">
