@@ -91,7 +91,7 @@ Write a sharp, concise strategic insight (3–4 sentences). Rules:
 4. Tone: calm, analytical, conviction-based — like a seasoned Bitcoiner, not a hype trader.
 5. Do NOT include phrases like "financial advice", "consult a professional", or legal disclaimers.`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
   const res = await fetch(url, {
     method: 'POST',
