@@ -30,13 +30,13 @@ export default function Navbar() {
   const username = profile?.username || user?.email?.split('@')[0] || '';
 
   return (
-    <nav className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-50">
+    <nav className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-50" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-xl flex-shrink-0">
-            <Bitcoin className="w-7 h-7 text-orange-400" />
+            <Bitcoin className="w-7 h-7 text-orange-400" aria-hidden="true" />
             <span>BTC<span className="text-orange-400">4</span>FIRE</span>
           </Link>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="flex items-center gap-1 text-gray-400 dark:text-slate-400 hover:text-red-400 text-sm transition-colors"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-4 h-4" aria-hidden="true" />
                   Logout
                 </button>
               </>
@@ -114,8 +114,10 @@ export default function Navbar() {
             <button
               className="p-1 text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -123,7 +125,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-50 dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 px-4 py-3 space-y-1">
+        <div className="md:hidden bg-gray-50 dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 px-4 py-3 space-y-1" role="menu">
           {navLinks.map(link => (
             <Link
               key={link.to}

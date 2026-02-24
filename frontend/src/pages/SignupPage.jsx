@@ -58,25 +58,26 @@ const SignupPage = () => {
         </div>
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex gap-3" role="alert">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" aria-hidden="true" />
             <p className="text-red-700 dark:text-red-400 text-sm">{error}</p>
           </div>
         )}
 
         {success && (
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6 flex gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6 flex gap-3" role="status">
+            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" aria-hidden="true" />
             <p className="text-green-700 dark:text-green-400 text-sm">{success}</p>
           </div>
         )}
 
         <form onSubmit={handleSignup} className="space-y-4">
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Email</label>
+            <label htmlFor="signup-email" className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
+                id="signup-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -88,10 +89,11 @@ const SignupPage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Password</label>
+            <label htmlFor="signup-password" className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
+                id="signup-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -103,10 +105,11 @@ const SignupPage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Confirm Password</label>
+            <label htmlFor="signup-confirm-password" className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Confirm Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
+                id="signup-confirm-password"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

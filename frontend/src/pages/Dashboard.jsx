@@ -47,12 +47,12 @@ export default function Dashboard() {
         <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">Bitcoin Price</h3>
-            <DollarSign className="w-5 h-5 text-blue-400" />
+            <DollarSign className="w-5 h-5 text-blue-400" aria-hidden="true" />
           </div>
           {priceLoading ? (
             <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
           ) : priceError ? (
-            <p className="text-red-400 text-sm">{priceError}</p>
+            <p className="text-red-400 text-sm" role="alert">{priceError}</p>
           ) : (
             <>
               <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(price?.price)}</div>
@@ -66,7 +66,7 @@ export default function Dashboard() {
         <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">24h Change</h3>
-            <TrendingUp className="w-5 h-5 text-orange-400" />
+            <TrendingUp className="w-5 h-5 text-orange-400" aria-hidden="true" />
           </div>
           {priceLoading ? (
             <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
@@ -80,7 +80,7 @@ export default function Dashboard() {
         <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">Market Cap</h3>
-            <DollarSign className="w-5 h-5 text-green-400" />
+            <DollarSign className="w-5 h-5 text-green-400" aria-hidden="true" />
           </div>
           {priceLoading ? (
             <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
@@ -194,7 +194,7 @@ export default function Dashboard() {
         {/* Price Alerts */}
         <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
-            <Bell className="w-5 h-5 text-blue-400" />
+            <Bell className="w-5 h-5 text-blue-400" aria-hidden="true" />
             <h3 className="text-gray-900 dark:text-white font-semibold">Price Alerts</h3>
           </div>
 
@@ -203,6 +203,7 @@ export default function Dashboard() {
             <select
               value={alertDir}
               onChange={e => setAlertDir(e.target.value)}
+              aria-label="Alert direction"
               className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-orange-500"
             >
               <option value="above">Above</option>
@@ -213,6 +214,7 @@ export default function Dashboard() {
               value={alertInput}
               onChange={e => setAlertInput(e.target.value)}
               placeholder="Target price (USD)"
+              aria-label="Target price in USD"
               className="flex-1 bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
             />
             <button
@@ -230,7 +232,7 @@ export default function Dashboard() {
           {/* Active alerts */}
           {alerts.length === 0 ? (
             <div className="text-center py-4">
-              <BellOff className="w-8 h-8 text-gray-300 dark:text-slate-700 mx-auto mb-2" />
+              <BellOff className="w-8 h-8 text-gray-300 dark:text-slate-700 mx-auto mb-2" aria-hidden="true" />
               <p className="text-gray-400 dark:text-slate-500 text-xs">No active alerts. Browser notifications required.</p>
             </div>
           ) : (
@@ -246,8 +248,9 @@ export default function Dashboard() {
                   <button
                     onClick={() => removeAlert(a.id)}
                     className="text-gray-400 dark:text-slate-600 hover:text-red-400 transition-colors p-1"
+                    aria-label={`Remove alert at $${Number(a.targetPrice).toLocaleString()}`}
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
                 </li>
               ))}

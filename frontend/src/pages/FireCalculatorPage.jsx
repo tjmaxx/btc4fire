@@ -63,10 +63,11 @@ export default function FireCalculatorPage() {
         <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Monthly Expenses (USD)</label>
+              <label htmlFor="fire-expenses" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Monthly Expenses (USD)</label>
               <div className="relative">
                 <span className="absolute left-3 top-2.5 text-gray-400 dark:text-slate-400 text-sm">$</span>
                 <input
+                  id="fire-expenses"
                   type="number" min="1" step="100"
                   value={monthlyExpenses}
                   onChange={e => setMonthlyExpenses(e.target.value)}
@@ -75,10 +76,11 @@ export default function FireCalculatorPage() {
               </div>
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Current Bitcoin Savings (USD)</label>
+              <label htmlFor="fire-savings" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Current Bitcoin Savings (USD)</label>
               <div className="relative">
                 <span className="absolute left-3 top-2.5 text-gray-400 dark:text-slate-400 text-sm">$</span>
                 <input
+                  id="fire-savings"
                   type="number" min="0" step="1000"
                   value={currentSavings}
                   onChange={e => setCurrentSavings(e.target.value)}
@@ -87,10 +89,11 @@ export default function FireCalculatorPage() {
               </div>
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">
+              <label htmlFor="fire-withdrawal" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">
                 Safe Withdrawal Rate: <span className="text-orange-400">{withdrawalRate}%</span>
               </label>
               <input
+                id="fire-withdrawal"
                 type="range" min="2" max="6" step="0.5"
                 value={withdrawalRate}
                 onChange={e => setWithdrawalRate(parseFloat(e.target.value))}
@@ -101,10 +104,11 @@ export default function FireCalculatorPage() {
               </div>
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">
+              <label htmlFor="fire-return" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">
                 Expected Annual BTC Return: <span className="text-orange-400">{annualReturn}%</span>
               </label>
               <input
+                id="fire-return"
                 type="range" min="0" max="50" step="5"
                 value={annualReturn}
                 onChange={e => setAnnualReturn(parseInt(e.target.value))}

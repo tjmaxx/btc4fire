@@ -172,14 +172,16 @@ export default function ArticlePage() {
 
           {isAuthenticated ? (
             <form onSubmit={handleComment} className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+              <label htmlFor="comment-text" className="sr-only">Write a comment</label>
               <textarea
+                id="comment-text"
                 value={commentText}
                 onChange={e => setCommentText(e.target.value)}
                 placeholder="Share your thoughts…"
                 rows={3}
                 className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg p-3 text-sm focus:outline-none focus:border-orange-500 resize-none transition-colors"
               />
-              {commentError && <p className="text-red-400 text-xs mt-2">{commentError}</p>}
+              {commentError && <p role="alert" className="text-red-400 text-xs mt-2">{commentError}</p>}
               <div className="flex justify-end mt-3">
                 <button
                   type="submit"

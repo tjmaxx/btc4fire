@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Bitcoin, TrendingUp, Users, ArrowRight, X } from 'lucide-react';
 
@@ -89,11 +89,23 @@ const STEPS = [
 export default function OnboardingModal() {
   const [visible, setVisible] = useState(() => !localStorage.getItem(STORAGE_KEY));
   const [step, setStep] = useState(0);
+  const closeRef = useRef(null);
 
   const dismiss = () => {
     localStorage.setItem(STORAGE_KEY, '1');
     setVisible(false);
   };
+
+  // Escape key handler and focus management
+  useEffect(() => {
+    if (!visible) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') dismiss();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    closeRef.current?.focus();
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [visible]);
 
   if (!visible) return null;
 
@@ -101,12 +113,12 @@ export default function OnboardingModal() {
   const isLast = step === STEPS.length - 1;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl w-full max-w-md shadow-2xl">
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-200 dark:border-slate-700">
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5" aria-label={`Step ${step + 1} of ${STEPS.length}`}>
             {STEPS.map((_, i) => (
               <div
                 key={i}
@@ -114,17 +126,17 @@ export default function OnboardingModal() {
               />
             ))}
           </div>
-          <button onClick={dismiss} className="text-gray-400 dark:text-slate-500 hover:text-gray-700 dark:hover:text-white transition-colors p-1">
-            <X className="w-4 h-4" />
+          <button ref={closeRef} onClick={dismiss} className="text-gray-400 dark:text-slate-500 hover:text-gray-700 dark:hover:text-white transition-colors p-1" aria-label="Close onboarding">
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
 
         {/* Body */}
         <div className="px-6 py-5">
           <div className={`w-12 h-12 ${iconBg} rounded-xl flex items-center justify-center mb-4`}>
-            <StepIcon className={`w-6 h-6 ${iconColor}`} />
+            <StepIcon className={`w-6 h-6 ${iconColor}`} aria-hidden="true" />
           </div>
-          <h2 className="text-gray-900 dark:text-white font-bold text-lg mb-4">{title}</h2>
+          <h2 id="onboarding-title" className="text-gray-900 dark:text-white font-bold text-lg mb-4">{title}</h2>
           {content}
         </div>
 
@@ -142,14 +154,14 @@ export default function OnboardingModal() {
               onClick={dismiss}
               className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Get Started <ArrowRight className="w-4 h-4" />
+              Get Started <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           ) : (
             <button
               onClick={() => setStep(s => s + 1)}
               className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Next <ArrowRight className="w-4 h-4" />
+              Next <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
           )}
         </div>

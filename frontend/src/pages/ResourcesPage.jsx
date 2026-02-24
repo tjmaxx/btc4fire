@@ -139,6 +139,7 @@ export default function ResourcesPage() {
             <input
               type="text"
               placeholder="Title *"
+              aria-label="Resource title"
               value={form.title}
               onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
               className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
@@ -147,6 +148,7 @@ export default function ResourcesPage() {
             <input
               type="url"
               placeholder="URL *"
+              aria-label="Resource URL"
               value={form.url}
               onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
               className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
@@ -155,6 +157,7 @@ export default function ResourcesPage() {
           </div>
           <textarea
             placeholder="Description"
+            aria-label="Resource description"
             value={form.description}
             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
             rows={2}
@@ -163,6 +166,7 @@ export default function ResourcesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <select
               value={form.category}
+              aria-label="Resource category"
               onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
               className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
             >
@@ -173,12 +177,13 @@ export default function ResourcesPage() {
             <input
               type="text"
               placeholder="Tags (comma-separated)"
+              aria-label="Tags"
               value={form.tags}
               onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
               className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
             />
           </div>
-          {formError && <p className="text-red-400 text-sm">{formError}</p>}
+          {formError && <p role="alert" className="text-red-400 text-sm">{formError}</p>}
           <button
             type="submit"
             disabled={submitting}

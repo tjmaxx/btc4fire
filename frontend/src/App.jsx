@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-slate-950">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-slate-950" role="status" aria-live="polite">
         <div className="text-gray-400 dark:text-slate-400 text-lg">Loading...</div>
       </div>
     );

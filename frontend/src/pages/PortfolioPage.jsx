@@ -192,8 +192,9 @@ export default function PortfolioPage() {
           <h2 className="text-gray-900 dark:text-white font-semibold mb-4">Log a Bitcoin Purchase</h2>
           <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">BTC Amount *</label>
+              <label htmlFor="portfolio-btc-amount" className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">BTC Amount *</label>
               <input
+                id="portfolio-btc-amount"
                 type="number" step="0.00000001" min="0"
                 placeholder="0.01"
                 value={form.btc_amount}
@@ -202,8 +203,9 @@ export default function PortfolioPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Price Paid per BTC (USD) *</label>
+              <label htmlFor="portfolio-price" className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Price Paid per BTC (USD) *</label>
               <input
+                id="portfolio-price"
                 type="number" step="0.01" min="0"
                 placeholder="85000"
                 value={form.purchase_price_usd}
@@ -212,8 +214,9 @@ export default function PortfolioPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Purchase Date *</label>
+              <label htmlFor="portfolio-date" className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Purchase Date *</label>
               <input
+                id="portfolio-date"
                 type="date"
                 value={form.purchase_date}
                 onChange={e => setForm(f => ({ ...f, purchase_date: e.target.value }))}
@@ -221,8 +224,9 @@ export default function PortfolioPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Notes</label>
+              <label htmlFor="portfolio-notes" className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Notes</label>
               <input
+                id="portfolio-notes"
                 type="text"
                 placeholder="DCA, lump sum, exchange..."
                 value={form.notes}
@@ -232,8 +236,8 @@ export default function PortfolioPage() {
             </div>
 
             {formError && (
-              <div className="sm:col-span-2 lg:col-span-4 flex items-center gap-2 text-red-400 text-sm">
-                <X className="w-4 h-4 flex-shrink-0" />{formError}
+              <div className="sm:col-span-2 lg:col-span-4 flex items-center gap-2 text-red-400 text-sm" role="alert">
+                <X className="w-4 h-4 flex-shrink-0" aria-hidden="true" />{formError}
               </div>
             )}
 
@@ -347,10 +351,10 @@ export default function PortfolioPage() {
               {!editingFire && (
                 <button
                   onClick={() => { setEditingFire(true); setFireInput(fireTarget ? String(fireTarget) : ''); }}
-                  title={fireTarget ? 'Edit target' : 'Set target'}
+                  aria-label={fireTarget ? 'Edit FIRE target' : 'Set FIRE target'}
                   className="text-gray-400 dark:text-slate-500 hover:text-orange-400 transition-colors p-1"
                 >
-                  <Pencil className="w-4 h-4" />
+                  <Pencil className="w-4 h-4" aria-hidden="true" />
                 </button>
               )}
             </div>
@@ -361,6 +365,7 @@ export default function PortfolioPage() {
                 <input
                   type="number" min="1" step="10000"
                   placeholder="e.g. 1000000"
+                  aria-label="FIRE target amount in USD"
                   value={fireInput}
                   onChange={e => setFireInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveFire()}
@@ -463,16 +468,17 @@ export default function PortfolioPage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
+                <caption className="sr-only">Bitcoin purchase history</caption>
                 <thead>
                   <tr className="text-gray-400 dark:text-slate-500 text-xs border-b border-gray-200/50 dark:border-slate-700/50">
-                    <th className="text-left px-5 py-3 font-medium">Date</th>
-                    <th className="text-right px-4 py-3 font-medium">BTC</th>
-                    <th className="text-right px-4 py-3 font-medium">Buy Price</th>
-                    <th className="text-right px-4 py-3 font-medium">Cost</th>
-                    <th className="text-right px-4 py-3 font-medium">Value Now</th>
-                    <th className="text-right px-5 py-3 font-medium">P&L</th>
-                    <th className="text-left px-4 py-3 font-medium hidden md:table-cell">Notes</th>
-                    <th className="px-4 py-3 w-10" />
+                    <th scope="col" className="text-left px-5 py-3 font-medium">Date</th>
+                    <th scope="col" className="text-right px-4 py-3 font-medium">BTC</th>
+                    <th scope="col" className="text-right px-4 py-3 font-medium">Buy Price</th>
+                    <th scope="col" className="text-right px-4 py-3 font-medium">Cost</th>
+                    <th scope="col" className="text-right px-4 py-3 font-medium">Value Now</th>
+                    <th scope="col" className="text-right px-5 py-3 font-medium">P&L</th>
+                    <th scope="col" className="text-left px-4 py-3 font-medium hidden md:table-cell">Notes</th>
+                    <th scope="col" className="px-4 py-3 w-10"><span className="sr-only">Actions</span></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -515,10 +521,10 @@ export default function PortfolioPage() {
                           <button
                             onClick={() => handleDelete(p.id)}
                             disabled={deleting === p.id}
-                            title="Delete purchase"
+                            aria-label="Delete purchase"
                             className="p-1.5 text-gray-300 dark:text-slate-600 hover:text-red-400 disabled:opacity-40 transition-colors rounded"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                           </button>
                         </td>
                       </tr>

@@ -78,10 +78,11 @@ export default function DCACalculatorPage() {
         <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Monthly Investment (USD)</label>
+              <label htmlFor="dca-monthly" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Monthly Investment (USD)</label>
               <div className="relative">
                 <span className="absolute left-3 top-2.5 text-gray-400 dark:text-slate-400 text-sm">$</span>
                 <input
+                  id="dca-monthly"
                   type="number" min="1" step="1"
                   value={monthly}
                   onChange={e => setMonthly(e.target.value)}
@@ -90,8 +91,9 @@ export default function DCACalculatorPage() {
               </div>
             </div>
             <div>
-              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Start Date</label>
+              <label htmlFor="dca-start-date" className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Start Date</label>
               <input
+                id="dca-start-date"
                 type="date"
                 value={startDate}
                 max={new Date().toISOString().slice(0, 10)}

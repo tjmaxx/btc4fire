@@ -29,7 +29,7 @@ export default function SatConverter() {
   return (
     <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Zap className="w-5 h-5 text-yellow-400" />
+        <Zap className="w-5 h-5 text-yellow-400" aria-hidden="true" />
         <h3 className="text-gray-900 dark:text-white font-semibold">Satoshi Converter</h3>
         {btcPrice && (
           <span className="ml-auto text-gray-400 dark:text-slate-500 text-xs">
@@ -65,6 +65,7 @@ export default function SatConverter() {
           value={value}
           onChange={e => setValue(e.target.value)}
           placeholder={mode === 'usd' ? '100' : '1000000'}
+          aria-label={mode === 'usd' ? 'Amount in USD' : 'Amount in satoshis'}
           className="w-full bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg pl-8 pr-4 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
         />
       </div>

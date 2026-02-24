@@ -55,18 +55,19 @@ const LoginPage = () => {
         </div>
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex gap-3" role="alert">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" aria-hidden="true" />
             <p className="text-red-700 dark:text-red-400 text-sm">{error}</p>
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Email</label>
+            <label htmlFor="login-email" className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
+                id="login-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -78,10 +79,11 @@ const LoginPage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Password</label>
+            <label htmlFor="login-password" className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
               <input
+                id="login-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -114,7 +116,7 @@ const LoginPage = () => {
         {showReset && (
           <div className="mt-4 p-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg">
             {resetSent ? (
-              <p className="text-green-700 dark:text-green-400 text-sm text-center">Check your email for a reset link.</p>
+              <p className="text-green-700 dark:text-green-400 text-sm text-center" role="status">Check your email for a reset link.</p>
             ) : (
               <form onSubmit={handleReset} className="space-y-3">
                 <p className="text-gray-600 dark:text-slate-400 text-sm">Enter your email and we'll send a reset link.</p>
@@ -123,6 +125,7 @@ const LoginPage = () => {
                   value={resetEmail}
                   onChange={e => setResetEmail(e.target.value)}
                   placeholder="your@email.com"
+                  aria-label="Email for password reset"
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />

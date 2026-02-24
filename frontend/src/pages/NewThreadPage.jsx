@@ -55,8 +55,9 @@ export default function NewThreadPage() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Category</label>
+            <label htmlFor="thread-category" className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Category</label>
             <select
+              id="thread-category"
               value={category}
               onChange={e => setCategory(e.target.value)}
               className="w-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
@@ -66,8 +67,9 @@ export default function NewThreadPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Title</label>
+            <label htmlFor="thread-title" className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Title</label>
             <input
+              id="thread-title"
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
@@ -79,8 +81,9 @@ export default function NewThreadPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Content</label>
+            <label htmlFor="thread-content" className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Content</label>
             <textarea
+              id="thread-content"
               value={content}
               onChange={e => setContent(e.target.value)}
               placeholder="Share your thoughts, questions, or insights..."
@@ -89,7 +92,7 @@ export default function NewThreadPage() {
             />
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p role="alert" className="text-red-400 text-sm">{error}</p>}
 
           <div className="flex gap-3 pt-1">
             <button

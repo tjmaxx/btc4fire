@@ -137,6 +137,7 @@ export default function BlogPage() {
         <input
           type="text"
           placeholder="Search articles..."
+          aria-label="Search articles"
           value={search}
           onChange={e => { setSearch(e.target.value); setPage(0); setArticles([]); }}
           className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-4 py-1.5 text-sm flex-1 focus:outline-none focus:border-orange-500 transition-colors"

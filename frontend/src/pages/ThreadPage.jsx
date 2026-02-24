@@ -160,15 +160,16 @@ export default function ThreadPage() {
         {!thread.locked ? (
           isAuthenticated ? (
             <form onSubmit={handleReply} className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
-              <h3 className="text-gray-900 dark:text-white font-medium mb-3">Add a Reply</h3>
+              <label htmlFor="reply-text" className="text-gray-900 dark:text-white font-medium mb-3 block">Add a Reply</label>
               <textarea
+                id="reply-text"
                 value={reply}
                 onChange={e => setReply(e.target.value)}
                 placeholder="Share your thoughts..."
                 rows={4}
                 className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg p-3 text-sm focus:outline-none focus:border-orange-500 resize-none transition-colors"
               />
-              {submitError && <p className="text-red-400 text-sm mt-2">{submitError}</p>}
+              {submitError && <p role="alert" className="text-red-400 text-sm mt-2">{submitError}</p>}
               <div className="flex justify-end mt-3">
                 <button
                   type="submit"
