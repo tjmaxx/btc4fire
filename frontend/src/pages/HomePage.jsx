@@ -125,6 +125,72 @@ const HomePage = () => {
           </div>
         </div>
 
+        {/* Key Terms Glossary */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2">Key Terms</h2>
+          <p className="text-white/50 text-sm mb-6">New to Bitcoin and FIRE? Here's the language you'll see on this site.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                term: 'DCA',
+                full: 'Dollar Cost Averaging',
+                color: 'text-orange-400', border: 'border-orange-500/20', bg: 'bg-orange-900/10',
+                def: 'Buying a fixed dollar amount of Bitcoin on a regular schedule (weekly, monthly) regardless of price. Removes the stress of market timing and smooths out your average cost.',
+              },
+              {
+                term: 'FIRE',
+                full: 'Financial Independence, Retire Early',
+                color: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-900/10',
+                def: 'A movement built on aggressive saving and investing to reach a point where you no longer need to work for money. Bitcoin accelerates the timeline thanks to its fixed supply.',
+              },
+              {
+                term: 'ATH',
+                full: 'All-Time High',
+                color: 'text-yellow-400', border: 'border-yellow-500/20', bg: 'bg-yellow-900/10',
+                def: "The highest price Bitcoin has ever traded at. How far below ATH we are right now is one of the most watched indicators for long-term buyers — bigger discounts historically offer better entry points.",
+              },
+              {
+                term: 'Sats',
+                full: 'Satoshis',
+                color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-900/10',
+                def: '1 Bitcoin = 100,000,000 satoshis. You don\'t need to buy a whole Bitcoin — you can stack sats (fractions) over time. Think of sats like cents are to a dollar, but far more scarce.',
+              },
+              {
+                term: 'HODL',
+                full: 'Hold On for Dear Life',
+                color: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-900/10',
+                def: 'A meme-born philosophy meaning: don\'t sell during dips or fear. Long-term holders who didn\'t sell through past crashes (−80%) saw life-changing gains in subsequent bull markets.',
+              },
+              {
+                term: '4% Rule',
+                full: 'Safe Withdrawal Rate',
+                color: 'text-pink-400', border: 'border-pink-500/20', bg: 'bg-pink-900/10',
+                def: 'A FIRE guideline: withdraw 4% of your portfolio per year and it statistically lasts 30+ years. Your FIRE number = annual expenses ÷ 0.04. E.g. $40k/yr expenses → $1M FIRE target.',
+              },
+              {
+                term: 'Stack',
+                full: 'Accumulating Bitcoin',
+                color: 'text-cyan-400', border: 'border-cyan-500/20', bg: 'bg-cyan-900/10',
+                def: 'To "stack" means to continuously accumulate more Bitcoin or sats over time, usually through DCA. The goal is to increase your BTC holdings regardless of short-term price moves.',
+              },
+              {
+                term: 'Self-Custody',
+                full: 'Holding Your Own Keys',
+                color: 'text-rose-400', border: 'border-rose-500/20', bg: 'bg-rose-900/10',
+                def: '"Not your keys, not your coins." Self-custody means storing Bitcoin in a wallet you control (hardware wallet) rather than on an exchange. Protects against exchange collapses.',
+              },
+            ].map(({ term, full, color, border, bg, def }) => (
+              <div key={term} className={`rounded-xl p-5 border ${border} ${bg}`}>
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className={`text-xl font-bold ${color}`}>{term}</span>
+                  <span className="text-white/40 text-xs">{full}</span>
+                </div>
+                <p className="text-white/60 text-xs leading-relaxed">{def}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* BTC vs S&P 500 */}
         <div className="mb-10">
           <BTCvsSnP />

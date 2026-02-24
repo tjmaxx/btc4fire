@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bot, TrendingDown, TrendingUp, Minus, Zap } from 'lucide-react';
 import { useMarketInsight } from '../hooks/useMarketInsight';
+import Tooltip from './Tooltip';
 
 const SIGNAL_CONFIG = {
   STRONG_DCA: {
@@ -114,6 +115,20 @@ export default function MarketInsight() {
 
       {/* AI message */}
       <p className="text-white/80 text-sm leading-relaxed mb-4">{insight.message}</p>
+
+      {/* Definitions row */}
+      <div className="flex flex-wrap gap-x-5 gap-y-1.5 mb-3">
+        {[
+          { term: 'DCA',  full: 'Dollar Cost Averaging', def: 'Buying a fixed dollar amount on a regular schedule regardless of price — removes the need to time the market.' },
+          { term: 'ATH',  full: 'All-Time High',         def: 'The highest price Bitcoin has ever traded at. Distance from ATH is a key gauge of where we are in the cycle.' },
+          { term: 'FIRE', full: 'Financial Independence, Retire Early', def: 'A strategy of aggressive saving and investing to achieve financial freedom and retire on your own schedule.' },
+          { term: 'Sats', full: 'Satoshis',              def: '1 BTC = 100,000,000 satoshis (sats). The smallest unit of Bitcoin — useful for thinking in small amounts.' },
+        ].map(({ term, full, def }) => (
+          <Tooltip key={term} text={`${full} — ${def}`}>
+            <span className="text-white/40 text-xs">{term}</span>
+          </Tooltip>
+        ))}
+      </div>
 
       {/* Footer */}
       <div className="flex items-center gap-2 pt-3 border-t border-white/10">
