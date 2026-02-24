@@ -38,38 +38,38 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="text-slate-400 text-sm mt-1">Live Bitcoin market data</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Live Bitcoin market data</p>
       </div>
 
       {/* Price cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-        <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+        <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-slate-400 text-sm font-medium">Bitcoin Price</h3>
+            <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">Bitcoin Price</h3>
             <DollarSign className="w-5 h-5 text-blue-400" />
           </div>
           {priceLoading ? (
-            <div className="h-9 bg-slate-700 rounded animate-pulse" />
+            <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
           ) : priceError ? (
             <p className="text-red-400 text-sm">{priceError}</p>
           ) : (
             <>
-              <div className="text-3xl font-bold text-white">{formatCurrency(price?.price)}</div>
-              <p className="text-slate-500 text-xs mt-1">
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(price?.price)}</div>
+              <p className="text-gray-400 dark:text-slate-500 text-xs mt-1">
                 {price?.timestamp ? new Date(price.timestamp).toLocaleString() : ''}
               </p>
             </>
           )}
         </div>
 
-        <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+        <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-slate-400 text-sm font-medium">24h Change</h3>
+            <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">24h Change</h3>
             <TrendingUp className="w-5 h-5 text-orange-400" />
           </div>
           {priceLoading ? (
-            <div className="h-9 bg-slate-700 rounded animate-pulse" />
+            <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
           ) : (
             <div className={`text-3xl font-bold ${price?.change24h > 0 ? 'text-green-400' : 'text-red-400'}`}>
               {formatPercent(price?.change24h)}
@@ -77,15 +77,15 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+        <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-slate-400 text-sm font-medium">Market Cap</h3>
+            <h3 className="text-gray-500 dark:text-slate-400 text-sm font-medium">Market Cap</h3>
             <DollarSign className="w-5 h-5 text-green-400" />
           </div>
           {priceLoading ? (
-            <div className="h-9 bg-slate-700 rounded animate-pulse" />
+            <div className="h-9 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
           ) : (
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {price?.marketCap ? formatCurrency(price.marketCap / 1e9) + 'B' : '-'}
             </div>
           )}
@@ -93,10 +93,10 @@ export default function Dashboard() {
       </div>
 
       {/* 7-day chart */}
-      <div className="bg-slate-800 rounded-xl p-5 border border-slate-700 mb-6">
-        <h2 className="text-white font-semibold mb-4">7-Day Price Chart</h2>
+      <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 mb-6">
+        <h2 className="text-gray-900 dark:text-white font-semibold mb-4">7-Day Price Chart</h2>
         {historyLoading ? (
-          <div className="h-64 bg-slate-700 rounded animate-pulse" />
+          <div className="h-64 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
         ) : historicalData?.length > 0 ? (
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={historicalData}>
@@ -112,25 +112,25 @@ export default function Dashboard() {
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-slate-500 text-sm">No chart data available.</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm">No chart data available.</p>
         )}
       </div>
 
       {/* Technical Signal */}
-      <div className="bg-slate-800 rounded-xl p-5 border border-slate-700 mb-6">
+      <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-white font-semibold flex items-center gap-2">
+          <h2 className="text-gray-900 dark:text-white font-semibold flex items-center gap-2">
             <Activity className="w-4 h-4 text-blue-400" /> Technical Signal
           </h2>
           {signal && (
-            <span className="text-slate-500 text-xs">
+            <span className="text-gray-400 dark:text-slate-500 text-xs">
               {new Date(signal.created_at).toLocaleString()}
             </span>
           )}
         </div>
 
         {signalLoading ? (
-          <div className="h-24 bg-slate-700 rounded animate-pulse" />
+          <div className="h-24 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
         ) : signal ? (() => {
           const style = SIGNAL_STYLES[signal.signal_type] || SIGNAL_STYLES.HOLD;
           return (
@@ -141,12 +141,12 @@ export default function Dashboard() {
                 </span>
                 {/* Score bar -5 to +5 */}
                 <div className="flex-1">
-                  <div className="flex justify-between text-xs text-slate-500 mb-1">
+                  <div className="flex justify-between text-xs text-gray-400 dark:text-slate-500 mb-1">
                     <span>Bearish</span>
                     <span className={`font-medium ${style.text}`}>Score: {signal.score > 0 ? '+' : ''}{signal.score}</span>
                     <span>Bullish</span>
                   </div>
-                  <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${style.bg.replace('/20', '')}`}
                       style={{ width: `${((signal.score + 5) / 10) * 100}%` }}
@@ -163,9 +163,9 @@ export default function Dashboard() {
                   { label: 'SMA 50', value: signal.sma50 ? formatCurrency(signal.sma50) : '—' },
                   { label: 'MACD', value: signal.macd?.toFixed(2) ?? '—' },
                 ].map(({ label, value }) => (
-                  <div key={label} className="bg-slate-900 rounded-lg p-3 text-center">
-                    <p className="text-slate-500 text-xs mb-1">{label}</p>
-                    <p className="text-white text-sm font-medium">{value}</p>
+                  <div key={label} className="bg-gray-50 dark:bg-slate-900 rounded-lg p-3 text-center">
+                    <p className="text-gray-400 dark:text-slate-500 text-xs mb-1">{label}</p>
+                    <p className="text-gray-900 dark:text-white text-sm font-medium">{value}</p>
                   </div>
                 ))}
               </div>
@@ -173,17 +173,17 @@ export default function Dashboard() {
               {/* Reasoning */}
               <ul className="space-y-1 mb-3">
                 {(Array.isArray(signal.reasoning) ? signal.reasoning : [signal.reasoning]).map((r, i) => (
-                  <li key={i} className="text-slate-400 text-xs flex items-start gap-1.5">
+                  <li key={i} className="text-gray-500 dark:text-slate-400 text-xs flex items-start gap-1.5">
                     <span className={`mt-0.5 flex-shrink-0 ${style.text}`}>•</span>{r}
                   </li>
                 ))}
               </ul>
 
-              <p className="text-slate-600 text-xs">For educational purposes only. Not financial advice.</p>
+              <p className="text-gray-400 dark:text-slate-600 text-xs">For educational purposes only. Not financial advice.</p>
             </>
           );
         })() : (
-          <p className="text-slate-500 text-sm">Signal unavailable.</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm">Signal unavailable.</p>
         )}
       </div>
 
@@ -192,10 +192,10 @@ export default function Dashboard() {
         <SatConverter />
 
         {/* Price Alerts */}
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+        <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <Bell className="w-5 h-5 text-blue-400" />
-            <h3 className="text-white font-semibold">Price Alerts</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold">Price Alerts</h3>
           </div>
 
           {/* Add alert form */}
@@ -203,7 +203,7 @@ export default function Dashboard() {
             <select
               value={alertDir}
               onChange={e => setAlertDir(e.target.value)}
-              className="bg-slate-900 border border-slate-600 text-slate-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-orange-500"
+              className="bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-orange-500"
             >
               <option value="above">Above</option>
               <option value="below">Below</option>
@@ -213,7 +213,7 @@ export default function Dashboard() {
               value={alertInput}
               onChange={e => setAlertInput(e.target.value)}
               placeholder="Target price (USD)"
-              className="flex-1 bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+              className="flex-1 bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
             />
             <button
               onClick={async () => {
@@ -230,14 +230,14 @@ export default function Dashboard() {
           {/* Active alerts */}
           {alerts.length === 0 ? (
             <div className="text-center py-4">
-              <BellOff className="w-8 h-8 text-slate-700 mx-auto mb-2" />
-              <p className="text-slate-500 text-xs">No active alerts. Browser notifications required.</p>
+              <BellOff className="w-8 h-8 text-gray-300 dark:text-slate-700 mx-auto mb-2" />
+              <p className="text-gray-400 dark:text-slate-500 text-xs">No active alerts. Browser notifications required.</p>
             </div>
           ) : (
             <ul className="space-y-2">
               {alerts.map(a => (
-                <li key={a.id} className="flex items-center justify-between bg-slate-900 rounded-lg px-3 py-2">
-                  <span className="text-slate-300 text-sm">
+                <li key={a.id} className="flex items-center justify-between bg-gray-50 dark:bg-slate-900 rounded-lg px-3 py-2">
+                  <span className="text-gray-700 dark:text-slate-300 text-sm">
                     <span className={a.direction === 'above' ? 'text-green-400' : 'text-red-400'}>
                       {a.direction === 'above' ? '↑' : '↓'}
                     </span>{' '}
@@ -245,7 +245,7 @@ export default function Dashboard() {
                   </span>
                   <button
                     onClick={() => removeAlert(a.id)}
-                    className="text-slate-600 hover:text-red-400 transition-colors p-1"
+                    className="text-gray-400 dark:text-slate-600 hover:text-red-400 transition-colors p-1"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -260,37 +260,37 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <Link
           to="/forum"
-          className="bg-slate-800 border border-slate-700 hover:border-orange-500/50 rounded-xl p-5 transition-all group"
+          className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-orange-500/50 rounded-xl p-5 transition-all group"
         >
           <div className="flex items-center gap-3 mb-2">
             <MessageSquare className="w-6 h-6 text-orange-400" />
-            <h3 className="text-white font-semibold">Community Forum</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold">Community Forum</h3>
           </div>
-          <p className="text-slate-400 text-sm">Discuss Bitcoin & FIRE with the community.</p>
+          <p className="text-gray-500 dark:text-slate-400 text-sm">Discuss Bitcoin & FIRE with the community.</p>
           <p className="text-orange-400 text-sm mt-3 group-hover:underline">Open forum →</p>
         </Link>
 
         <Link
           to="/blog"
-          className="bg-slate-800 border border-slate-700 hover:border-orange-500/50 rounded-xl p-5 transition-all group"
+          className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-orange-500/50 rounded-xl p-5 transition-all group"
         >
           <div className="flex items-center gap-3 mb-2">
             <BookOpen className="w-6 h-6 text-blue-400" />
-            <h3 className="text-white font-semibold">Blog & Guides</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold">Blog & Guides</h3>
           </div>
-          <p className="text-slate-400 text-sm">Articles on Bitcoin, FIRE strategies, and more.</p>
+          <p className="text-gray-500 dark:text-slate-400 text-sm">Articles on Bitcoin, FIRE strategies, and more.</p>
           <p className="text-orange-400 text-sm mt-3 group-hover:underline">Read articles →</p>
         </Link>
 
         <Link
           to="/portfolio"
-          className="bg-slate-800 border border-slate-700 hover:border-green-500/50 rounded-xl p-5 transition-all group"
+          className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-green-500/50 rounded-xl p-5 transition-all group"
         >
           <div className="flex items-center gap-3 mb-2">
             <Wallet className="w-6 h-6 text-green-400" />
-            <h3 className="text-white font-semibold">Portfolio Tracker</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold">Portfolio Tracker</h3>
           </div>
-          <p className="text-slate-400 text-sm">Track your BTC holdings, cost basis, and P&L.</p>
+          <p className="text-gray-500 dark:text-slate-400 text-sm">Track your BTC holdings, cost basis, and P&L.</p>
           <p className="text-green-400 text-sm mt-3 group-hover:underline">Open portfolio →</p>
         </Link>
       </div>

@@ -78,8 +78,8 @@ function toMonthly(series) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-slate-800 border border-slate-600 rounded-lg p-3 text-xs">
-      <p className="text-slate-400 mb-1">{label}</p>
+    <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg p-3 text-xs shadow-lg">
+      <p className="text-gray-500 dark:text-slate-400 mb-1">{label}</p>
       {payload.map(p => (
         <p key={p.dataKey} style={{ color: p.color }}>
           {p.name}: {p.value?.toFixed(1)}×
@@ -182,12 +182,12 @@ export default function BTCvsSnP() {
   const isLoading = loading || (!range.useAV && btcLoading1Y);
 
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+    <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-orange-400" />
-          <h3 className="text-white font-semibold">Bitcoin vs S&P 500</h3>
-          <span className="text-slate-500 text-xs">(indexed to 100 at start)</span>
+          <h3 className="text-gray-900 dark:text-white font-semibold">Bitcoin vs S&P 500</h3>
+          <span className="text-gray-400 dark:text-slate-500 text-xs">(indexed to 100 at start)</span>
         </div>
         <div className="flex gap-1">
           {RANGE_OPTIONS.map(opt => {
@@ -202,8 +202,8 @@ export default function BTCvsSnP() {
                   range.label === opt.label
                     ? 'bg-orange-500 text-white'
                     : disabled
-                      ? 'bg-slate-700/40 text-slate-600 cursor-not-allowed'
-                      : 'bg-slate-700 text-slate-400 hover:text-white'
+                      ? 'bg-gray-200 dark:bg-slate-700/40 text-gray-400 dark:text-slate-600 cursor-not-allowed'
+                      : 'bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 {opt.label}
@@ -214,26 +214,26 @@ export default function BTCvsSnP() {
       </div>
 
       {isLoading ? (
-        <div className="h-64 bg-slate-700 rounded animate-pulse" />
+        <div className="h-64 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
       ) : errorMsg ? (
         <div className="h-64 flex items-center justify-center">
-          <p className="text-slate-500 text-sm text-center max-w-xs">{errorMsg}</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm text-center max-w-xs">{errorMsg}</p>
         </div>
       ) : (
         <>
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={chartData}>
-              <CartesianGrid stroke="#1e293b" />
+              <CartesianGrid stroke="#e5e7eb" className="dark:[stroke:#1e293b]" />
               <XAxis
                 dataKey="date"
-                stroke="#475569"
+                stroke="#9ca3af"
                 tick={{ fontSize: 11 }}
                 interval={Math.max(0, Math.floor(chartData.length / 6) - 1)}
               />
-              <YAxis stroke="#475569" tick={{ fontSize: 11 }} tickFormatter={v => v.toFixed(0)} />
+              <YAxis stroke="#9ca3af" tick={{ fontSize: 11 }} tickFormatter={v => v.toFixed(0)} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }} />
-              <ReferenceLine y={100} stroke="#475569" strokeDasharray="4 2" />
+              <Legend wrapperStyle={{ fontSize: '12px', color: '#6b7280' }} />
+              <ReferenceLine y={100} stroke="#9ca3af" strokeDasharray="4 2" />
               <Line type="monotone" dataKey="btc" name="Bitcoin" stroke="#f97316" dot={false} strokeWidth={2} />
               {!spyError && (
                 <Line type="monotone" dataKey="spy" name="S&P 500 (SPY)" stroke="#60a5fa" dot={false} strokeWidth={2} />
@@ -241,7 +241,7 @@ export default function BTCvsSnP() {
             </LineChart>
           </ResponsiveContainer>
           {spyError && (
-            <p className="text-slate-500 text-xs mt-2 text-center">
+            <p className="text-gray-400 dark:text-slate-500 text-xs mt-2 text-center">
               {!apiKey
                 ? 'Add VITE_ALPHA_VANTAGE_KEY to enable S&P 500 comparison.'
                 : 'S&P 500 data unavailable — Alpha Vantage API error.'}

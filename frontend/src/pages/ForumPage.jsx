@@ -35,19 +35,19 @@ function ThreadCard({ thread }) {
   return (
     <Link
       to={`/forum/thread/${thread.id}`}
-      className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl px-5 py-4 hover:border-orange-500/50 transition-all"
+      className="flex items-center gap-4 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl px-5 py-4 hover:border-orange-500/50 transition-all"
     >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           {thread.pinned && <Pin className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />}
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${CAT_BADGE[thread.category] || 'bg-slate-700 text-slate-400'}`}>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${CAT_BADGE[thread.category] || 'bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-slate-400'}`}>
             {thread.category}
           </span>
         </div>
-        <h3 className="text-white font-medium truncate hover:text-orange-400 transition-colors">
+        <h3 className="text-gray-900 dark:text-white font-medium truncate hover:text-orange-400 transition-colors">
           {thread.title}
         </h3>
-        <p className="text-slate-500 text-xs mt-1 flex items-center gap-3">
+        <p className="text-gray-400 dark:text-slate-500 text-xs mt-1 flex items-center gap-3">
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
             {timeAgo(thread.created_at)}
@@ -56,11 +56,11 @@ function ThreadCard({ thread }) {
         </p>
       </div>
       <div className="text-center flex-shrink-0 min-w-[3rem]">
-        <div className="flex items-center gap-1 text-slate-400 text-sm justify-center">
+        <div className="flex items-center gap-1 text-gray-500 dark:text-slate-400 text-sm justify-center">
           <MessageSquare className="w-4 h-4" />
           {thread.reply_count}
         </div>
-        <div className="text-slate-600 text-xs mt-0.5">replies</div>
+        <div className="text-gray-400 dark:text-slate-600 text-xs mt-0.5">replies</div>
       </div>
     </Link>
   );
@@ -95,9 +95,9 @@ export default function ForumPage() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <MessageSquare className="w-7 h-7 text-orange-400" />
-            <h1 className="text-3xl font-bold text-white">Community Forum</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Community Forum</h1>
           </div>
-          <p className="text-slate-400 ml-10">Discuss Bitcoin, FIRE strategies, and connect with the community.</p>
+          <p className="text-gray-500 dark:text-slate-400 ml-10">Discuss Bitcoin, FIRE strategies, and connect with the community.</p>
         </div>
         {isAuthenticated && (
           <Link
@@ -118,7 +118,7 @@ export default function ForumPage() {
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
               category === cat.value
                 ? 'bg-orange-500 text-white'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
             }`}
           >
             {cat.label}
@@ -128,8 +128,8 @@ export default function ForumPage() {
 
       {/* Auth prompt for guests */}
       {!isAuthenticated && (
-        <div className="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-slate-300 text-sm">Join the community to start discussions and reply to threads.</p>
+        <div className="bg-gray-100/50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-xl px-5 py-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <p className="text-gray-700 dark:text-slate-300 text-sm">Join the community to start discussions and reply to threads.</p>
           <Link
             to="/signup"
             className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors"
@@ -141,10 +141,10 @@ export default function ForumPage() {
 
       {loading ? (
         <div className="space-y-3">
-          {[1, 2, 3, 4].map(i => <div key={i} className="bg-slate-800 rounded-xl h-20 animate-pulse" />)}
+          {[1, 2, 3, 4].map(i => <div key={i} className="bg-gray-100 dark:bg-slate-800 rounded-xl h-20 animate-pulse" />)}
         </div>
       ) : threads.length === 0 ? (
-        <div className="text-center py-16 text-slate-500">
+        <div className="text-center py-16 text-gray-400 dark:text-slate-500">
           No threads found.{' '}
           {isAuthenticated && (
             <Link to="/forum/new" className="text-orange-400 hover:underline">Be the first to post!</Link>

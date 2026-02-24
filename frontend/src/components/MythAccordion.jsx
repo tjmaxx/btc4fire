@@ -11,7 +11,7 @@ export default function MythAccordion() {
         return (
           <div
             key={i}
-            className={`rounded-xl border transition-colors ${isOpen ? 'border-orange-500/40 bg-orange-500/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
+            className={`rounded-xl border transition-colors ${isOpen ? 'border-orange-500/40 bg-orange-500/5' : 'border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/20'}`}
           >
             <button
               onClick={() => setOpen(isOpen ? null : i)}
@@ -19,14 +19,14 @@ export default function MythAccordion() {
             >
               <XCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 transition-colors ${isOpen ? 'text-orange-400' : 'text-red-400/60'}`} />
               <div className="flex-1 min-w-0">
-                <p className={`font-semibold text-sm transition-colors ${isOpen ? 'text-orange-300' : 'text-white/80'}`}>
+                <p className={`font-semibold text-sm transition-colors ${isOpen ? 'text-orange-300' : 'text-gray-800 dark:text-white/80'}`}>
                   {item.myth}
                 </p>
                 {!isOpen && (
-                  <p className="text-white/40 text-xs mt-0.5">{item.short}</p>
+                  <p className="text-gray-400 dark:text-white/40 text-xs mt-0.5">{item.short}</p>
                 )}
               </div>
-              <ChevronDown className={`w-4 h-4 text-white/40 flex-shrink-0 mt-0.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-4 h-4 text-gray-400 dark:text-white/40 flex-shrink-0 mt-0.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             {isOpen && (
               <div className="px-5 pb-5">
@@ -36,7 +36,7 @@ export default function MythAccordion() {
                 </div>
                 <div className="space-y-3">
                   {item.rebuttal.trim().split('\n\n').map((para, j) => (
-                    <p key={j} className="text-white/70 text-sm leading-relaxed">{para}</p>
+                    <p key={j} className="text-gray-600 dark:text-white/70 text-sm leading-relaxed">{para}</p>
                   ))}
                 </div>
               </div>

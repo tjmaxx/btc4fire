@@ -45,25 +45,25 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-orange-900 flex items-center justify-center px-4">
-      <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-orange-100 dark:from-blue-900 dark:to-orange-900 flex items-center justify-center px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-md w-full p-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-600">
             BTC4Fire
           </h1>
-          <p className="text-gray-600 mt-2">Bitcoin + Financial Independence</p>
+          <p className="text-gray-600 dark:text-slate-400 mt-2">Bitcoin + Financial Independence</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex gap-3">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+            <p className="text-red-700 dark:text-red-400 text-sm">{error}</p>
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
               <input
@@ -71,14 +71,14 @@ const LoginPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
+            <label className="block text-gray-700 dark:text-slate-300 font-medium mb-2">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
               <input
@@ -86,7 +86,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -105,26 +105,26 @@ const LoginPage = () => {
           <button
             type="button"
             onClick={() => { setShowReset(v => !v); setResetSent(false); }}
-            className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+            className="text-sm text-gray-500 dark:text-slate-400 hover:text-blue-600 transition-colors"
           >
             Forgot password?
           </button>
         </div>
 
         {showReset && (
-          <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="mt-4 p-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg">
             {resetSent ? (
-              <p className="text-green-700 text-sm text-center">Check your email for a reset link.</p>
+              <p className="text-green-700 dark:text-green-400 text-sm text-center">Check your email for a reset link.</p>
             ) : (
               <form onSubmit={handleReset} className="space-y-3">
-                <p className="text-gray-600 text-sm">Enter your email and we'll send a reset link.</p>
+                <p className="text-gray-600 dark:text-slate-400 text-sm">Enter your email and we'll send a reset link.</p>
                 <input
                   type="email"
                   value={resetEmail}
                   onChange={e => setResetEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
@@ -138,7 +138,7 @@ const LoginPage = () => {
           </div>
         )}
 
-        <div className="mt-6 text-center text-gray-600">
+        <div className="mt-6 text-center text-gray-600 dark:text-slate-400">
           <p>Don't have an account?{' '}
             <Link to="/signup" className="text-blue-600 font-medium hover:underline">
               Sign up

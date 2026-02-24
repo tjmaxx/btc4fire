@@ -175,8 +175,8 @@ export default function PortfolioPage() {
       {/* Header */}
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Portfolio Tracker</h1>
-          <p className="text-slate-400 text-sm mt-1">Log your Bitcoin purchases and track unrealized P&L in real time.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Portfolio Tracker</h1>
+          <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">Log your Bitcoin purchases and track unrealized P&L in real time.</p>
         </div>
         <button
           onClick={() => { setShowForm(v => !v); setFormError(''); }}
@@ -188,46 +188,46 @@ export default function PortfolioPage() {
 
       {/* Add Purchase form */}
       {showForm && (
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
-          <h2 className="text-white font-semibold mb-4">Log a Bitcoin Purchase</h2>
+        <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
+          <h2 className="text-gray-900 dark:text-white font-semibold mb-4">Log a Bitcoin Purchase</h2>
           <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-slate-400 text-xs font-medium mb-1.5">BTC Amount *</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">BTC Amount *</label>
               <input
                 type="number" step="0.00000001" min="0"
                 placeholder="0.01"
                 value={form.btc_amount}
                 onChange={e => setForm(f => ({ ...f, btc_amount: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-slate-400 text-xs font-medium mb-1.5">Price Paid per BTC (USD) *</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Price Paid per BTC (USD) *</label>
               <input
                 type="number" step="0.01" min="0"
                 placeholder="85000"
                 value={form.purchase_price_usd}
                 onChange={e => setForm(f => ({ ...f, purchase_price_usd: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-slate-400 text-xs font-medium mb-1.5">Purchase Date *</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Purchase Date *</label>
               <input
                 type="date"
                 value={form.purchase_date}
                 onChange={e => setForm(f => ({ ...f, purchase_date: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-slate-400 text-xs font-medium mb-1.5">Notes</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-xs font-medium mb-1.5">Notes</label>
               <input
                 type="text"
                 placeholder="DCA, lump sum, exchange..."
                 value={form.notes}
                 onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
 
@@ -253,16 +253,16 @@ export default function PortfolioPage() {
       {loading ? (
         <div className="space-y-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-24 bg-slate-800 rounded-xl animate-pulse" />
+            <div key={i} className="h-24 bg-gray-200 dark:bg-slate-800 rounded-xl animate-pulse" />
           ))}
         </div>
 
       ) : purchases.length === 0 ? (
         /* Empty state */
-        <div className="text-center py-24 bg-slate-800/50 rounded-xl border border-slate-700">
-          <Bitcoin className="w-14 h-14 text-slate-600 mx-auto mb-4" />
-          <p className="text-white font-semibold mb-1">No purchases logged yet</p>
-          <p className="text-slate-500 text-sm mb-5">Click "Add Purchase" above to log your first Bitcoin buy.</p>
+        <div className="text-center py-24 bg-gray-100/50 dark:bg-slate-800/50 rounded-xl border border-gray-200 dark:border-slate-700">
+          <Bitcoin className="w-14 h-14 text-gray-300 dark:text-slate-600 mx-auto mb-4" />
+          <p className="text-gray-900 dark:text-white font-semibold mb-1">No purchases logged yet</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm mb-5">Click "Add Purchase" above to log your first Bitcoin buy.</p>
           <button
             onClick={() => setShowForm(true)}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
@@ -276,51 +276,51 @@ export default function PortfolioPage() {
           {/* ── Summary cards ────────────────────────────────────────────── */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {/* Total BTC */}
-            <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+            <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-xs font-medium">Total BTC</p>
+                <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Total BTC</p>
                 <Bitcoin className="w-4 h-4 text-orange-400" />
               </div>
-              <p className="text-white text-2xl font-bold">{stats?.totalBTC?.toFixed(6)}</p>
-              <p className="text-slate-500 text-xs mt-0.5">BTC held</p>
+              <p className="text-gray-900 dark:text-white text-2xl font-bold">{stats?.totalBTC?.toFixed(6)}</p>
+              <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">BTC held</p>
             </div>
 
             {/* Avg buy price */}
-            <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+            <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-xs font-medium">Avg Buy Price</p>
+                <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Avg Buy Price</p>
                 <DollarSign className="w-4 h-4 text-blue-400" />
               </div>
-              <p className="text-white text-2xl font-bold">{fmt$(stats?.avgBuyPrice)}</p>
-              <p className="text-slate-500 text-xs mt-0.5">per BTC (cost basis)</p>
+              <p className="text-gray-900 dark:text-white text-2xl font-bold">{fmt$(stats?.avgBuyPrice)}</p>
+              <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">per BTC (cost basis)</p>
             </div>
 
             {/* Current value */}
-            <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+            <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-xs font-medium">Current Value</p>
+                <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Current Value</p>
                 <DollarSign className="w-4 h-4 text-green-400" />
               </div>
               {priceLoading ? (
-                <div className="h-8 bg-slate-700 rounded animate-pulse" />
+                <div className="h-8 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
               ) : (
                 <>
-                  <p className="text-white text-2xl font-bold">{fmt$(stats?.currentValue)}</p>
-                  <p className="text-slate-500 text-xs mt-0.5">@ {fmt$(currentPrice)}/BTC</p>
+                  <p className="text-gray-900 dark:text-white text-2xl font-bold">{fmt$(stats?.currentValue)}</p>
+                  <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">@ {fmt$(currentPrice)}/BTC</p>
                 </>
               )}
             </div>
 
             {/* Unrealized P&L */}
-            <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+            <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-xs font-medium">Unrealized P&L</p>
+                <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Unrealized P&L</p>
                 {(stats?.pnl ?? 0) >= 0
                   ? <TrendingUp  className="w-4 h-4 text-green-400" />
                   : <TrendingDown className="w-4 h-4 text-red-400" />}
               </div>
               {priceLoading ? (
-                <div className="h-8 bg-slate-700 rounded animate-pulse" />
+                <div className="h-8 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
               ) : (
                 <>
                   <p className={`text-2xl font-bold ${(stats?.pnl ?? 0) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
@@ -335,20 +335,20 @@ export default function PortfolioPage() {
           </div>
 
           {/* ── FIRE target ───────────────────────────────────────────────── */}
-          <div className={`border rounded-xl p-5 mb-6 ${fireAchieved ? 'bg-yellow-500/10 border-yellow-500/40' : 'bg-slate-800 border-slate-700'}`}>
+          <div className={`border rounded-xl p-5 mb-6 ${fireAchieved ? 'bg-yellow-500/10 border-yellow-500/40' : 'bg-gray-100 dark:bg-slate-800 border-gray-200 dark:border-slate-700'}`}>
             <div className="flex items-center gap-2 mb-3">
               <Target className={`w-5 h-5 flex-shrink-0 ${fireAchieved ? 'text-yellow-400' : 'text-orange-400'}`} />
-              <h2 className="text-white font-semibold flex-1">
+              <h2 className="text-gray-900 dark:text-white font-semibold flex-1">
                 {fireAchieved ? '🎯 FIRE Target Achieved!' : 'FIRE Target'}
               </h2>
               {fireTarget != null && !editingFire && (
-                <span className="text-slate-400 text-sm">{fmt$(fireTarget)}</span>
+                <span className="text-gray-500 dark:text-slate-400 text-sm">{fmt$(fireTarget)}</span>
               )}
               {!editingFire && (
                 <button
                   onClick={() => { setEditingFire(true); setFireInput(fireTarget ? String(fireTarget) : ''); }}
                   title={fireTarget ? 'Edit target' : 'Set target'}
-                  className="text-slate-500 hover:text-orange-400 transition-colors p-1"
+                  className="text-gray-400 dark:text-slate-500 hover:text-orange-400 transition-colors p-1"
                 >
                   <Pencil className="w-4 h-4" />
                 </button>
@@ -357,7 +357,7 @@ export default function PortfolioPage() {
 
             {editingFire ? (
               <div className="flex gap-2 items-center">
-                <span className="text-slate-400 text-sm">$</span>
+                <span className="text-gray-500 dark:text-slate-400 text-sm">$</span>
                 <input
                   type="number" min="1" step="10000"
                   placeholder="e.g. 1000000"
@@ -365,7 +365,7 @@ export default function PortfolioPage() {
                   onChange={e => setFireInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveFire()}
                   autoFocus
-                  className="flex-1 bg-slate-900 border border-slate-600 text-white placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                  className="flex-1 bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 transition-colors"
                 />
                 <button
                   onClick={saveFire}
@@ -376,14 +376,14 @@ export default function PortfolioPage() {
                 </button>
                 <button
                   onClick={() => setEditingFire(false)}
-                  className="px-3 py-2 text-slate-400 hover:text-white text-sm rounded-lg transition-colors"
+                  className="px-3 py-2 text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white text-sm rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
               </div>
             ) : fireTarget == null ? (
               <div className="text-center py-3">
-                <p className="text-slate-500 text-sm mb-3">Set a portfolio goal to track progress toward financial independence.</p>
+                <p className="text-gray-400 dark:text-slate-500 text-sm mb-3">Set a portfolio goal to track progress toward financial independence.</p>
                 <button
                   onClick={() => { setEditingFire(true); setFireInput(''); }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 text-sm font-medium rounded-lg transition-colors"
@@ -393,13 +393,13 @@ export default function PortfolioPage() {
               </div>
             ) : stats?.currentValue != null ? (
               <>
-                <div className="h-3 bg-slate-700 rounded-full overflow-hidden mb-2">
+                <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden mb-2">
                   <div
                     className={`h-full rounded-full transition-all duration-700 ${fireAchieved ? 'bg-gradient-to-r from-yellow-400 to-yellow-300' : 'bg-gradient-to-r from-orange-500 to-yellow-400'}`}
                     style={{ width: `${Math.min(fireProgress, 100)}%` }}
                   />
                 </div>
-                <div className="flex justify-between text-xs text-slate-500">
+                <div className="flex justify-between text-xs text-gray-400 dark:text-slate-500">
                   {fireAchieved ? (
                     <>
                       <span className="text-yellow-400 font-medium">{fireProgress?.toFixed(1)}% — exceeded by {fmt$(stats.currentValue - fireTarget)}</span>
@@ -418,10 +418,10 @@ export default function PortfolioPage() {
 
           {/* ── Portfolio value chart ─────────────────────────────────────── */}
           {chartData.length > 1 && (
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+            <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
               <div className="flex items-center gap-2 mb-4">
                 <BarChart2 className="w-5 h-5 text-blue-400" />
-                <h2 className="text-white font-semibold">Cumulative Portfolio Value</h2>
+                <h2 className="text-gray-900 dark:text-white font-semibold">Cumulative Portfolio Value</h2>
               </div>
               <ResponsiveContainer width="100%" height={240}>
                 <LineChart data={chartData}>
@@ -437,7 +437,7 @@ export default function PortfolioPage() {
                   <Line type="monotone" dataKey="cost"  stroke="#3b82f6" dot={false} strokeWidth={2} strokeDasharray="4 3" name="cost" />
                 </LineChart>
               </ResponsiveContainer>
-              <div className="flex gap-6 mt-3 text-xs text-slate-500">
+              <div className="flex gap-6 mt-3 text-xs text-gray-400 dark:text-slate-500">
                 <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-orange-400 inline-block rounded" /> Current Value</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-blue-400 inline-block rounded border-dashed" /> Total Invested</span>
               </div>
@@ -445,17 +445,17 @@ export default function PortfolioPage() {
           )}
 
           {/* ── Purchase history table ────────────────────────────────────── */}
-          <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-700 flex items-center justify-between">
-              <h2 className="text-white font-semibold">Purchase History</h2>
+          <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between">
+              <h2 className="text-gray-900 dark:text-white font-semibold">Purchase History</h2>
               <div className="flex items-center gap-3">
-                <span className="text-slate-500 text-xs">
+                <span className="text-gray-400 dark:text-slate-500 text-xs">
                   {purchases.length} {purchases.length === 1 ? 'entry' : 'entries'} · {fmt$(stats?.totalInvested)} total invested
                 </span>
                 <button
                   onClick={() => exportCSV(purchases)}
                   title="Export to CSV"
-                  className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 px-2.5 py-1.5 rounded-lg transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" /> Export CSV
                 </button>
@@ -464,7 +464,7 @@ export default function PortfolioPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-slate-500 text-xs border-b border-slate-700/50">
+                  <tr className="text-gray-400 dark:text-slate-500 text-xs border-b border-gray-200/50 dark:border-slate-700/50">
                     <th className="text-left px-5 py-3 font-medium">Date</th>
                     <th className="text-right px-4 py-3 font-medium">BTC</th>
                     <th className="text-right px-4 py-3 font-medium">Buy Price</th>
@@ -484,21 +484,21 @@ export default function PortfolioPage() {
                     const isProfit = (rowPnl ?? 0) >= 0;
 
                     return (
-                      <tr key={p.id} className="border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors">
-                        <td className="px-5 py-3.5 text-slate-300 whitespace-nowrap">
+                      <tr key={p.id} className="border-b border-gray-200/30 dark:border-slate-700/30 hover:bg-gray-50 dark:hover:bg-slate-700/20 transition-colors">
+                        <td className="px-5 py-3.5 text-gray-700 dark:text-slate-300 whitespace-nowrap">
                           {new Date(p.purchase_date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                         </td>
-                        <td className="px-4 py-3.5 text-right text-orange-300 font-mono whitespace-nowrap">
+                        <td className="px-4 py-3.5 text-right text-orange-500 dark:text-orange-300 font-mono whitespace-nowrap">
                           {Number(p.btc_amount).toFixed(6)}
                         </td>
-                        <td className="px-4 py-3.5 text-right text-slate-300 whitespace-nowrap">
+                        <td className="px-4 py-3.5 text-right text-gray-700 dark:text-slate-300 whitespace-nowrap">
                           {fmt$(Number(p.purchase_price_usd))}
                         </td>
-                        <td className="px-4 py-3.5 text-right text-slate-300 whitespace-nowrap">
+                        <td className="px-4 py-3.5 text-right text-gray-700 dark:text-slate-300 whitespace-nowrap">
                           {fmt$(cost)}
                         </td>
-                        <td className="px-4 py-3.5 text-right text-slate-300 whitespace-nowrap">
-                          {valueNow != null ? fmt$(valueNow) : <span className="text-slate-600">—</span>}
+                        <td className="px-4 py-3.5 text-right text-gray-700 dark:text-slate-300 whitespace-nowrap">
+                          {valueNow != null ? fmt$(valueNow) : <span className="text-gray-300 dark:text-slate-600">—</span>}
                         </td>
                         <td className="px-5 py-3.5 text-right whitespace-nowrap">
                           {rowPnl != null ? (
@@ -506,17 +506,17 @@ export default function PortfolioPage() {
                               {fmt$(rowPnl)}{' '}
                               <span className="text-xs opacity-70">({fmtPct(rowPnlPct)})</span>
                             </span>
-                          ) : <span className="text-slate-600">—</span>}
+                          ) : <span className="text-gray-300 dark:text-slate-600">—</span>}
                         </td>
-                        <td className="px-4 py-3.5 text-slate-500 text-xs max-w-xs truncate hidden md:table-cell">
-                          {p.notes || <span className="text-slate-700">—</span>}
+                        <td className="px-4 py-3.5 text-gray-400 dark:text-slate-500 text-xs max-w-xs truncate hidden md:table-cell">
+                          {p.notes || <span className="text-gray-300 dark:text-slate-700">—</span>}
                         </td>
                         <td className="px-4 py-3.5">
                           <button
                             onClick={() => handleDelete(p.id)}
                             disabled={deleting === p.id}
                             title="Delete purchase"
-                            className="p-1.5 text-slate-600 hover:text-red-400 disabled:opacity-40 transition-colors rounded"
+                            className="p-1.5 text-gray-300 dark:text-slate-600 hover:text-red-400 disabled:opacity-40 transition-colors rounded"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>

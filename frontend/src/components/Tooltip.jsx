@@ -16,8 +16,8 @@ export default function Tooltip({ children, text }) {
       <span
         className="
           absolute bottom-full left-1/2 -translate-x-1/2 mb-2
-          w-60 bg-slate-800 border border-slate-600
-          text-white/90 text-xs rounded-xl px-3 py-2.5
+          w-60 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600
+          text-gray-700 dark:text-white/90 text-xs rounded-xl px-3 py-2.5
           opacity-0 group-hover:opacity-100
           transition-opacity duration-150
           pointer-events-none z-50 shadow-2xl
@@ -27,7 +27,7 @@ export default function Tooltip({ children, text }) {
       >
         {text}
         {/* Arrow */}
-        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-600" />
+        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-200 dark:border-t-slate-600" />
       </span>
     </span>
   );

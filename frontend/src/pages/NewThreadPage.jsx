@@ -47,45 +47,45 @@ export default function NewThreadPage() {
   return (
     <Layout>
       <div className="max-w-2xl mx-auto">
-        <Link to="/forum" className="inline-flex items-center gap-1 text-slate-400 hover:text-white mb-6 text-sm transition-colors">
+        <Link to="/forum" className="inline-flex items-center gap-1 text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white mb-6 text-sm transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Forum
         </Link>
 
-        <h1 className="text-2xl font-bold text-white mb-6">Start a New Discussion</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Start a New Discussion</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2">Category</label>
+            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Category</label>
             <select
               value={category}
               onChange={e => setCategory(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              className="w-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
             >
               {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
             </select>
           </div>
 
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2">Title</label>
+            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Title</label>
             <input
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="What's your question or topic?"
               maxLength={200}
-              className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              className="w-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 transition-colors"
             />
-            <p className="text-slate-600 text-xs mt-1 text-right">{title.length}/200</p>
+            <p className="text-gray-400 dark:text-slate-600 text-xs mt-1 text-right">{title.length}/200</p>
           </div>
 
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2">Content</label>
+            <label className="block text-gray-700 dark:text-slate-300 text-sm font-medium mb-2">Content</label>
             <textarea
               value={content}
               onChange={e => setContent(e.target.value)}
               placeholder="Share your thoughts, questions, or insights..."
               rows={8}
-              className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 resize-none transition-colors"
+              className="w-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-orange-500 resize-none transition-colors"
             />
           </div>
 
@@ -101,7 +101,7 @@ export default function NewThreadPage() {
             </button>
             <Link
               to="/forum"
-              className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2.5 rounded-lg text-sm transition-colors"
+              className="bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-900 dark:text-white px-6 py-2.5 rounded-lg text-sm transition-colors"
             >
               Cancel
             </Link>

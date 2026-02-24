@@ -67,47 +67,47 @@ export default function DCACalculatorPage() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-1">
             <Calculator className="w-7 h-7 text-orange-400" />
-            <h1 className="text-3xl font-bold text-white">DCA Calculator</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">DCA Calculator</h1>
           </div>
-          <p className="text-slate-400 ml-10">
+          <p className="text-gray-500 dark:text-slate-400 ml-10">
             See what would have happened if you'd invested a fixed amount in Bitcoin every month.
           </p>
         </div>
 
         {/* Inputs */}
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+        <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-slate-400 text-sm font-medium mb-2">Monthly Investment (USD)</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Monthly Investment (USD)</label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-slate-400 text-sm">$</span>
+                <span className="absolute left-3 top-2.5 text-gray-400 dark:text-slate-400 text-sm">$</span>
                 <input
                   type="number" min="1" step="1"
                   value={monthly}
                   onChange={e => setMonthly(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-600 text-white pl-7 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white pl-7 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-orange-500 transition-colors"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-slate-400 text-sm font-medium mb-2">Start Date</label>
+              <label className="block text-gray-500 dark:text-slate-400 text-sm font-medium mb-2">Start Date</label>
               <input
                 type="date"
                 value={startDate}
                 max={new Date().toISOString().slice(0, 10)}
                 onChange={e => setStartDate(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-600 text-white px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
           </div>
           {/* Quick buttons */}
           <div className="flex gap-2 mt-4">
-            <span className="text-slate-500 text-xs self-center">Quick:</span>
+            <span className="text-gray-400 dark:text-slate-500 text-xs self-center">Quick:</span>
             {[1, 2, 3, 5].map(y => (
               <button
                 key={y}
                 onClick={() => setStartDate(yearsAgoDate(y))}
-                className="px-3 py-1 bg-slate-700 hover:bg-orange-500/20 hover:text-orange-400 text-slate-300 text-xs rounded-full transition-colors"
+                className="px-3 py-1 bg-gray-200 dark:bg-slate-700 hover:bg-orange-500/20 hover:text-orange-400 text-gray-600 dark:text-slate-300 text-xs rounded-full transition-colors"
               >
                 {y}Y ago
               </button>
@@ -118,41 +118,41 @@ export default function DCACalculatorPage() {
         {/* Results */}
         {isLoading ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {[...Array(4)].map((_, i) => <div key={i} className="h-24 bg-slate-800 rounded-xl animate-pulse" />)}
+            {[...Array(4)].map((_, i) => <div key={i} className="h-24 bg-gray-200 dark:bg-slate-800 rounded-xl animate-pulse" />)}
           </div>
         ) : sim ? (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+              <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-400 text-xs font-medium">Total Invested</p>
+                  <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Total Invested</p>
                   <DollarSign className="w-4 h-4 text-blue-400" />
                 </div>
-                <p className="text-white text-2xl font-bold">{fmt$(sim.totalInvested)}</p>
-                <p className="text-slate-500 text-xs mt-0.5">at {fmt$(monthlyAmount)}/month</p>
+                <p className="text-gray-900 dark:text-white text-2xl font-bold">{fmt$(sim.totalInvested)}</p>
+                <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">at {fmt$(monthlyAmount)}/month</p>
               </div>
 
-              <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+              <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-400 text-xs font-medium">BTC Accumulated</p>
+                  <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">BTC Accumulated</p>
                   <Bitcoin className="w-4 h-4 text-orange-400" />
                 </div>
-                <p className="text-white text-2xl font-bold">{sim.totalBTC.toFixed(5)}</p>
-                <p className="text-slate-500 text-xs mt-0.5">BTC held</p>
+                <p className="text-gray-900 dark:text-white text-2xl font-bold">{sim.totalBTC.toFixed(5)}</p>
+                <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">BTC held</p>
               </div>
 
-              <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+              <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-400 text-xs font-medium">Current Value</p>
+                  <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Current Value</p>
                   <DollarSign className="w-4 h-4 text-green-400" />
                 </div>
-                <p className="text-white text-2xl font-bold">{sim.currentValue != null ? fmt$(sim.currentValue) : '—'}</p>
-                <p className="text-slate-500 text-xs mt-0.5">@ {currentPrice ? fmt$(currentPrice) : '…'}/BTC</p>
+                <p className="text-gray-900 dark:text-white text-2xl font-bold">{sim.currentValue != null ? fmt$(sim.currentValue) : '—'}</p>
+                <p className="text-gray-400 dark:text-slate-500 text-xs mt-0.5">@ {currentPrice ? fmt$(currentPrice) : '…'}/BTC</p>
               </div>
 
-              <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+              <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-400 text-xs font-medium">Total Return</p>
+                  <p className="text-gray-500 dark:text-slate-400 text-xs font-medium">Total Return</p>
                   <TrendingUp className="w-4 h-4 text-green-400" />
                 </div>
                 <p className={`text-2xl font-bold ${(sim.pnl ?? 0) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
@@ -166,8 +166,8 @@ export default function DCACalculatorPage() {
 
             {/* Chart */}
             {sim.chartData.length > 1 && (
-              <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
-                <h2 className="text-white font-semibold mb-4">Portfolio Growth</h2>
+              <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-6">
+                <h2 className="text-gray-900 dark:text-white font-semibold mb-4">Portfolio Growth</h2>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={sim.chartData}>
                     <CartesianGrid stroke="#1e293b" />
@@ -182,7 +182,7 @@ export default function DCACalculatorPage() {
                     <Line type="monotone" dataKey="cost" stroke="#3b82f6" dot={false} strokeWidth={2} strokeDasharray="4 3" name="cost" />
                   </LineChart>
                 </ResponsiveContainer>
-                <div className="flex gap-6 mt-3 text-xs text-slate-500">
+                <div className="flex gap-6 mt-3 text-xs text-gray-400 dark:text-slate-500">
                   <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-orange-400 inline-block rounded" /> Portfolio Value</span>
                   <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-blue-400 inline-block rounded" /> Total Invested</span>
                 </div>
@@ -190,12 +190,12 @@ export default function DCACalculatorPage() {
             )}
           </>
         ) : (
-          <p className="text-slate-500 text-sm text-center py-12">Enter an amount to see your DCA results.</p>
+          <p className="text-gray-400 dark:text-slate-500 text-sm text-center py-12">Enter an amount to see your DCA results.</p>
         )}
 
         {/* CTA */}
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 text-center">
-          <p className="text-slate-300 mb-3">Ready to start tracking your real purchases?</p>
+        <div className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 text-center">
+          <p className="text-gray-700 dark:text-slate-300 mb-3">Ready to start tracking your real purchases?</p>
           <Link
             to="/portfolio"
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors"

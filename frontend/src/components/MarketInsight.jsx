@@ -9,7 +9,7 @@ const SIGNAL_CONFIG = {
     desc:  'Significantly below ATH — historically a high-conviction accumulation window.',
     color:       'text-emerald-400',
     borderColor: 'border-emerald-500/30',
-    bg:          'bg-emerald-900/20',
+    bg:          'bg-emerald-50 dark:bg-emerald-900/20',
     badgeBg:     'bg-emerald-500/15',
     Icon: TrendingDown,
   },
@@ -18,7 +18,7 @@ const SIGNAL_CONFIG = {
     desc:  'Meaningful discount from ATH — a solid window to build your stack.',
     color:       'text-orange-400',
     borderColor: 'border-orange-500/30',
-    bg:          'bg-orange-900/20',
+    bg:          'bg-orange-50 dark:bg-orange-900/20',
     badgeBg:     'bg-orange-500/15',
     Icon: Zap,
   },
@@ -27,7 +27,7 @@ const SIGNAL_CONFIG = {
     desc:  'Moderate distance from ATH — stay the course with your regular DCA plan.',
     color:       'text-blue-400',
     borderColor: 'border-blue-500/30',
-    bg:          'bg-blue-900/20',
+    bg:          'bg-blue-50 dark:bg-blue-900/20',
     badgeBg:     'bg-blue-500/15',
     Icon: Minus,
   },
@@ -36,7 +36,7 @@ const SIGNAL_CONFIG = {
     desc:  'Price is close to ATH — patience if undeployed; conviction holders, keep holding.',
     color:       'text-yellow-400',
     borderColor: 'border-yellow-500/30',
-    bg:          'bg-yellow-900/20',
+    bg:          'bg-yellow-50 dark:bg-yellow-900/20',
     badgeBg:     'bg-yellow-500/15',
     Icon: TrendingUp,
   },
@@ -44,18 +44,18 @@ const SIGNAL_CONFIG = {
 
 function Skeleton() {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-10 animate-pulse">
+    <div className="bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 mb-10 animate-pulse">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-9 h-9 bg-white/10 rounded-xl flex-shrink-0" />
+        <div className="w-9 h-9 bg-gray-200 dark:bg-white/10 rounded-xl flex-shrink-0" />
         <div className="space-y-1.5 flex-1">
-          <div className="h-3.5 bg-white/10 rounded w-40" />
-          <div className="h-2.5 bg-white/10 rounded w-24" />
+          <div className="h-3.5 bg-gray-200 dark:bg-white/10 rounded w-40" />
+          <div className="h-2.5 bg-gray-200 dark:bg-white/10 rounded w-24" />
         </div>
       </div>
       <div className="space-y-2">
-        <div className="h-3 bg-white/10 rounded w-full" />
-        <div className="h-3 bg-white/10 rounded w-11/12" />
-        <div className="h-3 bg-white/10 rounded w-4/6" />
+        <div className="h-3 bg-gray-200 dark:bg-white/10 rounded w-full" />
+        <div className="h-3 bg-gray-200 dark:bg-white/10 rounded w-11/12" />
+        <div className="h-3 bg-gray-200 dark:bg-white/10 rounded w-4/6" />
       </div>
     </div>
   );
@@ -95,17 +95,17 @@ export default function MarketInsight() {
         </div>
 
         {/* Price pill */}
-        <span className="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-medium">
+        <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-gray-800 dark:text-white text-xs font-medium">
           BTC ${insight.btc_price?.toLocaleString()}
         </span>
 
         {pctFromAth && (
-          <span className="px-3 py-1 rounded-full bg-white/10 text-white/60 text-xs">
+          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-gray-500 dark:text-white/60 text-xs">
             {pctFromAth}
           </span>
         )}
 
-        <span className="ml-auto text-white/30 text-xs flex-shrink-0">
+        <span className="ml-auto text-gray-400 dark:text-white/30 text-xs flex-shrink-0">
           Updated {updatedLabel}
         </span>
       </div>
@@ -114,7 +114,7 @@ export default function MarketInsight() {
       <p className={`text-xs font-medium ${cfg.color} mb-3`}>{cfg.desc}</p>
 
       {/* AI message */}
-      <p className="text-white/80 text-sm leading-relaxed mb-4">{insight.message}</p>
+      <p className="text-gray-700 dark:text-white/80 text-sm leading-relaxed mb-4">{insight.message}</p>
 
       {/* Definitions row */}
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 mb-3">
@@ -125,15 +125,15 @@ export default function MarketInsight() {
           { term: 'Sats', full: 'Satoshis',              def: '1 BTC = 100,000,000 satoshis (sats). The smallest unit of Bitcoin — useful for thinking in small amounts.' },
         ].map(({ term, full, def }) => (
           <Tooltip key={term} text={`${full} — ${def}`}>
-            <span className="text-white/40 text-xs">{term}</span>
+            <span className="text-gray-400 dark:text-white/40 text-xs">{term}</span>
           </Tooltip>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="flex items-center gap-2 pt-3 border-t border-white/10">
-        <Bot className="w-3.5 h-3.5 text-white/25 flex-shrink-0" />
-        <p className="text-white/30 text-xs">
+      <div className="flex items-center gap-2 pt-3 border-t border-black/10 dark:border-white/10">
+        <Bot className="w-3.5 h-3.5 text-gray-300 dark:text-white/25 flex-shrink-0" />
+        <p className="text-gray-400 dark:text-white/30 text-xs">
           AI-generated daily insight · Educational only — not financial advice · Refreshes once per day
         </p>
       </div>
