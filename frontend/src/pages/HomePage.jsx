@@ -100,8 +100,32 @@ const HomePage = () => {
 
         <Divider />
 
-        {/* ── 2. AI MARKET INSIGHT ── */}
+        {/* ── 2. FIRE PRINCIPLES ── */}
         <Section>
+          <ScrollSection>
+            <h2 className="text-2xl font-bold text-white mb-2">The Bitcoin FIRE Principles</h2>
+            <p className="text-white/50 text-sm mb-6">Why Bitcoin is the optimal savings vehicle for Financial Independence.</p>
+          </ScrollSection>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {FIRE_PRINCIPLES.map(({ icon, color, bg, title, desc }, i) => {
+              const PrincipleIcon = icon;
+              return (
+                <ScrollSection key={title} delay={i * 80}>
+                  <div className={`rounded-xl p-5 border h-full ${bg}`}>
+                    <PrincipleIcon className={`w-8 h-8 ${color} mb-3`} />
+                    <h3 className={`font-bold ${color} mb-2 text-sm`}>{title}</h3>
+                    <p className="text-white/60 text-xs leading-relaxed">{desc}</p>
+                  </div>
+                </ScrollSection>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Divider />
+
+        {/* ── 3. AI MARKET INSIGHT ── */}
+        <Section tint>
           <ScrollSection>
             <MarketInsight />
           </ScrollSection>
@@ -109,8 +133,8 @@ const HomePage = () => {
 
         <Divider />
 
-        {/* ── 3. STRATEGY INC + QUOTES ── */}
-        <Section tint>
+        {/* ── 4. STRATEGY INC + QUOTES ── */}
+        <Section>
           <ScrollSection>
             <div className="bg-gradient-to-r from-orange-900/40 to-slate-900/40 border border-orange-500/30 rounded-2xl p-8">
               <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -158,30 +182,6 @@ const HomePage = () => {
                 </div>
               </ScrollSection>
             ))}
-          </div>
-        </Section>
-
-        <Divider />
-
-        {/* ── 4. FIRE PRINCIPLES ── */}
-        <Section>
-          <ScrollSection>
-            <h2 className="text-2xl font-bold text-white mb-2">The Bitcoin FIRE Principles</h2>
-            <p className="text-white/50 text-sm mb-6">Why Bitcoin is the optimal savings vehicle for Financial Independence.</p>
-          </ScrollSection>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {FIRE_PRINCIPLES.map(({ icon, color, bg, title, desc }, i) => {
-              const PrincipleIcon = icon;
-              return (
-                <ScrollSection key={title} delay={i * 80}>
-                  <div className={`rounded-xl p-5 border h-full ${bg}`}>
-                    <PrincipleIcon className={`w-8 h-8 ${color} mb-3`} />
-                    <h3 className={`font-bold ${color} mb-2 text-sm`}>{title}</h3>
-                    <p className="text-white/60 text-xs leading-relaxed">{desc}</p>
-                  </div>
-                </ScrollSection>
-              );
-            })}
           </div>
         </Section>
 
