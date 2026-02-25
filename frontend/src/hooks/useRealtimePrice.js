@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
 
 const COINGECKO_BASE = 'https://api.coingecko.com/api/v3';
-const HIST_CACHE_TTL  = 10 * 60 * 1000; // 10 min — historical data changes slowly
-const PRICE_CACHE_TTL =  1 * 60 * 1000; //  1 min — live price refreshes often
+const HIST_CACHE_TTL  = 30 * 60 * 1000; // 30 min — historical data changes slowly
+const PRICE_CACHE_TTL =  2 * 60 * 1000; //  2 min — live price refresh
 
 // Module-level caches shared across all hook instances
 const histCache   = new Map(); // days → { data, ts }
 const histInflight = new Map(); // days → Promise (dedup concurrent requests)
 let   priceCache  = null;       // { data, ts }
 let   priceInflight = null;     // Promise
+let   backoffUntil = 0;         // timestamp — skip requests until this time
 
 async function cgFetch(path) {
+  if (Date.now() < backoffUntil) throw new Error('rate_limited');
   const res = await fetch(`${COINGECKO_BASE}${path}`);
-  if (res.status === 429) throw new Error('rate_limited');
-  if (!res.ok)            throw new Error(`HTTP ${res.status}`);
+  if (res.status === 429) {
+    backoffUntil = Date.now() + 60_000; // back off 60 seconds on 429
+    throw new Error('rate_limited');
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
@@ -82,7 +87,7 @@ async function fetchPriceCached() {
 
 // ── Hooks ──────────────────────────────────────────────────────────────────────
 
-export const useRealtimePrice = (refreshInterval = 60000) => {
+export const useRealtimePrice = (refreshInterval = 120000) => {
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -96,7 +101,13 @@ export const useRealtimePrice = (refreshInterval = 60000) => {
         if (!cancelled) { setPrice(data); setError(null); }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message === 'rate_limited' ? 'Rate limited — retrying soon.' : err.message);
+          // If rate limited but we have stale data, keep showing it
+          if (err.message === 'rate_limited' && priceCache?.data) {
+            setPrice(priceCache.data);
+            setError(null);
+          } else {
+            setError(err.message === 'rate_limited' ? 'Rate limited — retrying soon.' : err.message);
+          }
         }
       } finally {
         if (!cancelled) setLoading(false);
